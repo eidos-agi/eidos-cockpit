@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eidos-cockpit — Landing</title>
+  <style>
+    :root {
+      --primary: #6c8aff;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --text: #c8c8d4;
+      --muted: #606078;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      padding: 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .cockpit-name {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .landing-label {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .status-item {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .status-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .status-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    }
+    .status-value.clean { color: var(--primary); }
+    .status-value.dirty { color: var(--warning); }
+    .status-value.done { color: var(--primary); }
+    .status-value.paused { color: var(--warning); }
+    .status-value.blocked { color: var(--danger); }
+    .status-value.high { color: var(--primary); }
+    .status-value.medium { color: var(--warning); }
+    .status-value.low { color: var(--danger); }
+
+    /* Briefing sections */
+    .section {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--primary);
+    }
+    .section.loose-ends { border-left-color: var(--warning); }
+    .section.blockers { border-left-color: var(--danger); }
+    .section h2 {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .section.loose-ends h2 { color: var(--warning); }
+    .section.blockers h2 { color: var(--danger); }
+    .section p {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .section p:last-child { margin-bottom: 0; }
+    .section ol, .section ul {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .section ol:last-child, .section ul:last-child { margin-bottom: 0; }
+    .section li {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+    .section li:last-child { margin-bottom: 0; }
+    .section code {
+      background: var(--bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.875em;
+    }
+
+    /* Footer */
+    .timestamp {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--surface);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="cockpit-name">eidos-cockpit</div>
+    <div class="landing-label">Landing #1</div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Pilot</div>
+      <div class="status-value">Daniel Shanklin</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Date</div>
+      <div class="status-value">Feb 26, 2026</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Time</div>
+      <div class="status-value">10:45 PM</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Session</div>
+      <div class="status-value">#1</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Branch</div>
+      <div class="status-value">main</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Working Tree</div>
+      <div class="status-value clean">Clean</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">State</div>
+      <div class="status-value done">Done</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Confidence</div>
+      <div class="status-value high">High</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What We Accomplished</h2>
+    <p>First-ever session in the eidos-cockpit. Three things got done:</p>
+    <ol>
+      <li><strong>Ran the inaugural /takeoff</strong> — booted the cockpit for the first time. The pre-flight scan produced a full situational briefing covering the North Star vision, Hancock auth middleware, and the current planning-phase state of the project. Generated <code>takeoff.md</code> and <code>cockpit.html</code> as persistent artifacts.</li>
+      <li><strong>Upgraded /takeoff to auto-open the dashboard</strong> — added <code>open cockpit.html</code> to the end of the takeoff skill so the styled briefing automatically opens in the browser.</li>
+      <li><strong>Rewrote /land from scratch</strong> — the original was a bare checklist. The new version includes a cleanup phase (checks for uncommitted work), conversational debrief interview, <code>landing.md</code> + <code>landing.html</code> generation, and auto-open in the browser. Created <code>landing-template.html</code> with the same theme system as takeoff.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>Decisions Made</h2>
+    <ul>
+      <li><code>/land</code> should mirror <code>/takeoff</code> in richness — both generate markdown + HTML artifacts, both auto-open in the browser</li>
+      <li>The debrief interview should be conversational and reference specific session activity, not a cold bureaucratic checklist</li>
+      <li>Landing includes a cleanup phase before the debrief to handle uncommitted work</li>
+    </ul>
+  </div>
+
+  <div class="section loose-ends">
+    <h2>Loose Ends</h2>
+    <p>All clean. Working tree committed at <code>14d0ac4</code>.</p>
+  </div>
+
+  <div class="section">
+    <h2>Next Actions</h2>
+    <ol>
+      <li><strong>Operationalize the North Star vision</strong> — translate "universal screen control, no mandatory APIs" into concrete eidos-v5 architecture</li>
+      <li><strong>Design and prototype Hancock</strong> — research NIST AI Agent Standards, IETF OAuth extensions, SPIFFE identity for the delegation middleware</li>
+      <li><strong>Populate knowledge and decision logs</strong> — start building shared memory in <code>knowledge/</code> and <code>briefs/</code> so multi-pilot coordination works</li>
+    </ol>
+  </div>
+
+  <div class="section blockers">
+    <h2>Blockers</h2>
+    <p>None.</p>
+  </div>
+
+  <div class="timestamp">
+    Generated Feb 26, 2026 at 10:45 PM by /land
+  </div>
+
+</body>
+</html>
