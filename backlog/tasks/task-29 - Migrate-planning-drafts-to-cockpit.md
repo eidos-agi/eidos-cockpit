@@ -1,5 +1,5 @@
 ---
-id: TASK-1
+id: TASK-29
 title: Migrate planning drafts from eidos-v5 to cockpit
 status: To Do
 assignee: []
@@ -8,6 +8,7 @@ labels:
   - cockpit
   - housekeeping
 dependencies: []
+milestone: m-4
 priority: high
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: TASK-2
+id: TASK-30
 title: Save research briefs to cockpit
 status: To Do
 assignee: []
@@ -8,6 +8,7 @@ labels:
   - cockpit
   - research
 dependencies: []
+milestone: m-4
 priority: high
 ---
 

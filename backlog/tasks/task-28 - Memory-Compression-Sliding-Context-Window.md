@@ -10,7 +10,7 @@ labels:
   - architecture
   - infrastructure
 dependencies: []
-references:
+milestone: m-5references:
   - memory.py
   - memory_db.py
   - distillation.py

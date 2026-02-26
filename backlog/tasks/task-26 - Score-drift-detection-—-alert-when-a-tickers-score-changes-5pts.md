@@ -7,7 +7,7 @@ created_date: '2026-02-23 17:23'
 updated_date: '2026-02-23 17:23'
 labels: []
 milestone: m-3
-dependencies: []
+dependencies: [TASK-25]
 priority: medium
 ---
 

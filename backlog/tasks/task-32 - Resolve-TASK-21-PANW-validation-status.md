@@ -1,5 +1,5 @@
 ---
-id: TASK-4
+id: TASK-32
 title: Resolve TASK-21 (PI-7 PANW validation) status
 status: To Do
 assignee: []
@@ -8,6 +8,7 @@ labels:
   - eidos-v5
   - investment-research
 dependencies: []
+milestone: m-4
 priority: medium
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: TASK-3
+id: TASK-31
 title: Write cockpit domain skills
 status: To Do
 assignee: []
@@ -8,6 +8,7 @@ labels:
   - cockpit
   - skills
 dependencies: []
+milestone: m-4
 priority: medium
 ---
 

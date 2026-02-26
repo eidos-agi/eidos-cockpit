@@ -1,5 +1,5 @@
 ---
-id: TASK-5
+id: TASK-33
 title: Initialize Backlog.md MCP in cockpit
 status: To Do
 assignee: []
@@ -8,6 +8,7 @@ labels:
   - cockpit
   - setup
 dependencies: []
+milestone: m-4
 priority: high
 ---
 
