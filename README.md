@@ -1,94 +1,76 @@
-# AI Cockpit Template
+# Eidos Cockpit
 
-Universal session lifecycle primitives for Claude Code workspaces.
+Multi-pilot planning, strategy, and mission control for Eidos AGI.
 
 **Hop in. Fly. Land.**
 
 ## What This Is
 
-A cockpit is a Claude Code workspace with a rhythm:
+The operational command post for the Eidos ecosystem. Multiple pilots (Daniel, Vybhav, future contributors) work here simultaneously — planning sprints, making architectural decisions, tracking research, and coordinating across repos.
 
-1. **`/takeoff`** — Boot sequence. Reads your last bookmark, checks what changed, shows priorities. Waits for orders.
-2. **Work** — Use your domain-specific skills. The cockpit tracks state.
-3. **`/land`** — Park sequence. Captures what got done, what's next, writes a bookmark for next session.
-
-This template provides the universal primitives that every cockpit needs. Fork it, add your domain-specific skills, and you have a cockpit.
+Built from the [AI Cockpit Template](https://github.com/rhea-impact/ai-cockpit-template).
 
 ## Quick Start
 
 ```bash
-# Clone the template
-gh repo create my-cockpit --template rhea-impact/ai-cockpit-template --public
-cd my-cockpit
-
-# Customize CLAUDE.md with your role context
-# Add domain-specific skills to .claude/skills/
-
-# Start working
-claude
-# > /takeoff
-# > ... do your work ...
-# > /land
+cd eidos-cockpit
+git pull                    # merge other pilots' work
+claude                      # open Claude Code
+# > /takeoff                # boot sequence
+# > ... plan, decide, research ...
+# > /land                   # park and push
 ```
 
-## What's Included
+## Multi-Pilot Design
 
-### Skills (Universal Primitives)
+Two pilots can work simultaneously without conflicts:
+
+- **`pilots/<name>/`** — Per-pilot scratch space. Your session notes, thinking, TODOs.
+- **`knowledge/`** — Shared knowledge base. Append-only (add files, don't edit others').
+- **`decisions/`** — Architectural decisions. Date-prefixed, append-only. Permanent record.
+- **`briefs/`** — Research summaries and decision-ready briefs.
+- **`state.json`** — Cockpit state. Skills manage this via structured updates.
+- **Backlog.md** — Task management via MCP. Single source of truth for work items.
+
+**The rule**: fetch/pull before takeoff. Two pilots merge into the same plane, never fork into two.
+
+## Skills
 
 | Skill | Trigger | What It Does |
 |-------|---------|-------------|
-| `/takeoff` | Start of session | ASCII header, drift detection, composes `/pre-flight` for full briefing |
-| `/pre-flight` | Called by takeoff (or standalone) | Subagent scan: where we were / are / going / blockers |
-| `/land` | End of session | Capture outcomes, blockers, next actions, write bookmark |
-| `/cockpit-status` | Anytime | Show active workstreams, blockers, ages, who owes what |
-| `/cockpit-repair` | When things break | Validate state files, find corruption, offer fixes |
-
-### State Management
-
-- **`state.json`** — Watermarks, counters, last-run timestamps. Skills read/write this to enable incremental operations.
-- **Bookmarks** — Written to `~/.claude/bookmarks/` by `/land`. Read by `/takeoff` on next session. This is the bridge between sessions.
+| `/takeoff` | Start of session | Pull, read bookmark, drift check, show priorities |
+| `/land` | End of session | Capture outcomes, write bookmark, push |
+| `/cockpit-status` | Anytime | Active workstreams, blockers, pilot activity |
+| `/pre-flight` | Called by takeoff | Deep scan: where we were / are / going / blockers |
+| `/cockpit-repair` | When things break | Validate state, find corruption, offer fixes |
 
 ## Cockpit Architecture
 
 ```
-your-cockpit/
+eidos-cockpit/
 ├── .claude/
-│   └── skills/
-│       ├── takeoff/              # Boot sequence (from template)
-│       ├── land/                 # Park sequence (from template)
-│       ├── cockpit-status/       # Instrument panel (from template)
-│       ├── pre-flight/            # Situational scan (from template)
-│       ├── cockpit-repair/       # Diagnostics (from template)
-│       └── your-domain-skill/    # Your additions
-├── state.json                    # Session state & watermarks
-├── CLAUDE.md                     # Role context + instructions
-└── ...                           # Your domain-specific structure
+│   └── skills/            # Session lifecycle + domain skills
+├── CLAUDE.md              # Role context + instructions
+├── state.json             # Cockpit state & watermarks
+├── pilots/                # Per-pilot state (merge-friendly)
+│   ├── daniel/
+│   └── vybhav/
+├── knowledge/             # Shared knowledge (append-only)
+├── decisions/             # Architectural decisions (append-only)
+├── briefs/                # Research briefs & summaries
+└── docs/                  # Guides (from template)
 ```
 
-## Design Principles
+## Ecosystem
 
-1. **Cheap boots** — `/takeoff` reads 2 things: state.json and latest bookmark. Git state and CLAUDE.md are already in session context. No redundant I/O.
-2. **Session contracts** — Every session has a lifecycle: boot → work → land. Bookmarks are the contract between sessions.
-3. **Drift detection** — If the branch changed, files were modified, or commits landed since your last bookmark, `/takeoff` tells you.
-4. **Domain-agnostic** — The template knows nothing about your project. It only knows about sessions, bookmarks, and state.
-5. **Composable** — Add as many domain skills as you want. The primitives stay the same.
-
-## Documentation
-
-| Guide | What It Covers |
-|-------|---------------|
-| [docs/customization.md](docs/customization.md) | Adding skills, extending state.json, configuring the dashboard |
-| [docs/fleet.md](docs/fleet.md) | Managing multiple cockpits from a mothership (roles/, fleet registry) |
-| [docs/integrations.md](docs/integrations.md) | Connecting MCP servers (Outlook, GitHub, Wrike, etc.) |
-| [CHANGELOG.md](CHANGELOG.md) | Version history |
-
-## In the Wild
-
-Cockpits built from this template:
-- **AIC Director of AI** — Email-centric command post across 4 sub-roles
-- **Greenmark Planning** — Waste management leadership planning hub
-- *(Add yours here)*
+| Repo | Role |
+|------|------|
+| **eidos-cockpit** (this) | Planning & mission control |
+| **eidos-v5** | Engine — pods, PEFM memory, orchestrator |
+| **eidos-infra** | Infrastructure & deployment |
+| **eidos-philosophy** | Core identity & philosophy docs |
+| **eidos-studies** | Research studies & experiments |
 
 ## License
 
-MIT. Built by [Rhea Impact](https://rheaimpact.com) — free software for coding agents.
+MIT. Built by [Eidos AGI](https://github.com/eidos-agi).

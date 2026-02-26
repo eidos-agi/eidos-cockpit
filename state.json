@@ -1,18 +1,22 @@
 {
   "cockpit": {
-    "name": "ai-cockpit-template",
-    "version": "1.1.0",
+    "name": "eidos-cockpit",
+    "version": "1.0.0",
     "template": "rhea-impact/ai-cockpit-template",
-    "created": "2026-02-25"
+    "created": "2026-02-26",
+    "org": "eidos-agi"
   },
   "theme": {
-    "primary": "#3fb950",
-    "danger": "#f85149",
-    "warning": "#d29922",
-    "bg": "#0d1117",
-    "surface": "#161b22",
-    "text": "#e6edf3",
-    "muted": "#8b949e"
+    "primary": "#6c8aff",
+    "danger": "#ef4444",
+    "warning": "#f59e0b",
+    "bg": "#0a0a0f",
+    "surface": "#12121a",
+    "text": "#c8c8d4",
+    "muted": "#606078",
+    "dreamer": "#6c8aff",
+    "doubter": "#f59e0b",
+    "decider": "#4ade80"
   },
   "watermarks": {
     "last_takeoff": null,
@@ -24,5 +28,37 @@
     "takeoffs": 0,
     "landings": 0
   },
+  "pilots": {
+    "daniel": {
+      "last_active": null,
+      "sessions": 0
+    },
+    "vybhav": {
+      "last_active": null,
+      "sessions": 0
+    }
+  },
+  "fleet": [
+    {
+      "name": "Eidos v5 (Engine)",
+      "path": "~/repos-eidos-agi/eidos-v5",
+      "repo": "eidos-agi/eidos-v5"
+    },
+    {
+      "name": "Eidos Infra",
+      "path": "~/repos-eidos-agi/eidos-infra",
+      "repo": "eidos-agi/eidos-infra"
+    },
+    {
+      "name": "Eidos Philosophy",
+      "path": "~/repos-eidos-agi/eidos-philosophy",
+      "repo": "eidos-agi/eidos-philosophy"
+    },
+    {
+      "name": "Eidos Studies",
+      "path": "~/repos-eidos-agi/eidos-studies",
+      "repo": "eidos-agi/eidos-studies"
+    }
+  ],
   "custom": {}
 }
