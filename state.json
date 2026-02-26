@@ -19,19 +19,19 @@
     "decider": "#4ade80"
   },
   "watermarks": {
-    "last_takeoff": "2026-02-27T04:15:00Z",
+    "last_takeoff": "2026-02-27T04:50:00Z",
     "last_land": "2026-02-27T04:45:00Z",
     "last_status_check": null
   },
   "counters": {
-    "sessions": 1,
-    "takeoffs": 1,
+    "sessions": 2,
+    "takeoffs": 2,
     "landings": 1
   },
   "pilots": {
     "daniel": {
-      "last_active": "2026-02-27T04:15:00Z",
-      "sessions": 1
+      "last_active": "2026-02-27T04:50:00Z",
+      "sessions": 2
     },
     "vybhav": {
       "last_active": null,
