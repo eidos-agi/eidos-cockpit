@@ -4,7 +4,8 @@
     "version": "1.0.0",
     "template": "rhea-impact/ai-cockpit-template",
     "created": "2026-02-26",
-    "org": "eidos-agi"
+    "org": "eidos-agi",
+    "template_version": "v1.2.1"
   },
   "theme": {
     "primary": "#6c8aff",
