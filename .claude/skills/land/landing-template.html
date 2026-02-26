@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{COCKPIT_NAME}} — Landing</title>
+  <style>
+    :root {
+      --primary: {{PRIMARY}};
+      --danger: {{DANGER}};
+      --warning: {{WARNING}};
+      --bg: {{BG}};
+      --surface: {{SURFACE}};
+      --text: {{TEXT}};
+      --muted: {{MUTED}};
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      padding: 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .cockpit-name {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .landing-label {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .status-item {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .status-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .status-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    }
+    .status-value.clean { color: var(--primary); }
+    .status-value.dirty { color: var(--warning); }
+    .status-value.done { color: var(--primary); }
+    .status-value.paused { color: var(--warning); }
+    .status-value.blocked { color: var(--danger); }
+    .status-value.high { color: var(--primary); }
+    .status-value.medium { color: var(--warning); }
+    .status-value.low { color: var(--danger); }
+
+    /* Briefing sections */
+    .section {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--primary);
+    }
+    .section.loose-ends { border-left-color: var(--warning); }
+    .section.blockers { border-left-color: var(--danger); }
+    .section h2 {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .section.loose-ends h2 { color: var(--warning); }
+    .section.blockers h2 { color: var(--danger); }
+    .section p {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .section p:last-child { margin-bottom: 0; }
+    .section ol, .section ul {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .section ol:last-child, .section ul:last-child { margin-bottom: 0; }
+    .section li {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+    .section li:last-child { margin-bottom: 0; }
+    .section code {
+      background: var(--bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.875em;
+    }
+
+    /* Footer */
+    .timestamp {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--surface);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="cockpit-name">{{COCKPIT_NAME}}</div>
+    <div class="landing-label">Landing #{{LANDING_NUMBER}}</div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Pilot</div>
+      <div class="status-value">{{PILOT}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Date</div>
+      <div class="status-value">{{DATE}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Time</div>
+      <div class="status-value">{{TIME}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Session</div>
+      <div class="status-value">#{{SESSION_NUMBER}}</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Branch</div>
+      <div class="status-value">{{BRANCH}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Working Tree</div>
+      <div class="status-value {{DIRTY_CLASS}}">{{DIRTY_VALUE}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">State</div>
+      <div class="status-value {{STATE_CLASS}}">{{STATE_VALUE}}</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Confidence</div>
+      <div class="status-value {{CONFIDENCE_CLASS}}">{{CONFIDENCE_VALUE}}</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What We Accomplished</h2>
+    {{ACCOMPLISHMENTS}}
+  </div>
+
+  <div class="section">
+    <h2>Decisions Made</h2>
+    {{DECISIONS}}
+  </div>
+
+  <div class="section loose-ends">
+    <h2>Loose Ends</h2>
+    {{LOOSE_ENDS}}
+  </div>
+
+  <div class="section">
+    <h2>Next Actions</h2>
+    {{NEXT_ACTIONS}}
+  </div>
+
+  <div class="section blockers">
+    <h2>Blockers</h2>
+    {{BLOCKERS}}
+  </div>
+
+  <div class="timestamp">
+    Generated {{TIMESTAMP}} by /land
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eidos-cockpit — Cockpit</title>
+  <style>
+    :root {
+      --primary: #6c8aff;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --text: #c8c8d4;
+      --muted: #606078;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      padding: 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .cockpit-name {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .takeoff-label {
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Status bar */
+    .status-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .status-item {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .status-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .status-value {
+      font-size: 1.125rem;
+      font-weight: 600;
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    }
+    .status-value.clean { color: var(--primary); }
+    .status-value.dirty { color: var(--warning); }
+    .status-value.never { color: var(--muted); font-style: italic; }
+
+    /* Drift alert */
+    .drift {
+      background: rgba(210, 153, 34, 0.08);
+      border: 1px solid var(--warning);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .drift-badge {
+      background: var(--warning);
+      color: var(--bg);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2em 0.6em;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .drift-text { font-size: 0.9375rem; }
+
+    /* Resume line */
+    .resume {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid var(--muted);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.9375rem;
+    }
+
+    /* Briefing sections */
+    .section {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--primary);
+    }
+    .section.blockers { border-left-color: var(--danger); }
+    .section h2 {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .section.blockers h2 { color: var(--danger); }
+    .section p {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .section p:last-child { margin-bottom: 0; }
+    .section ol, .section ul {
+      padding-left: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .section ol:last-child, .section ul:last-child { margin-bottom: 0; }
+    .section li {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+    .section li:last-child { margin-bottom: 0; }
+
+    /* Stale marker */
+    .stale {
+      color: var(--warning);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .timestamp {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--surface);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="cockpit-name">eidos-cockpit</div>
+    <div class="takeoff-label">Takeoff #1</div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Pilot</div>
+      <div class="status-value">Daniel Shanklin</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Date</div>
+      <div class="status-value">Feb 26, 2026</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Time</div>
+      <div class="status-value">10:15 PM</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Takeoff</div>
+      <div class="status-value">#1</div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-item">
+      <div class="status-label">Branch</div>
+      <div class="status-value">main</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Working Tree</div>
+      <div class="status-value clean">Clean</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Session</div>
+      <div class="status-value">#1</div>
+    </div>
+    <div class="status-item">
+      <div class="status-label">Last Landing</div>
+      <div class="status-value never">Never</div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="section">
+    <h2>Where We Were</h2>
+    <p>First session. Fresh cockpit initialized Feb 26, 2026. Two foundational decisions crystallized from the Daniel/Vybhav brainstorm and are now locked into the <code>decisions/</code> directory:</p>
+    <p><strong>North Star</strong> — Eidos is a full universal agent, not a bot. It works with ANY website, ANY terminal, ANY interface via screen-and-keyboard control. APIs are optimizations; screen control is the universal fallback. It has its own identity — email, phone, Slack, persistent presence. Token burn is an acceptable cost for universality.</p>
+    <p><strong>Hancock</strong> — The delegation and approval middleware that lets Eidos act as a remote employee with human-in-the-loop approval. The second pillar of the architecture, enabling trust and compliance for autonomous agent actions.</p>
+    <p>The cockpit is built from the AI Cockpit Template and is fully operational — multi-pilot design ready, skills in place, state tracking initialized. No previous sessions to inherit from.</p>
+  </div>
+
+  <div class="section">
+    <h2>Where We Are</h2>
+    <p>The cockpit is in <strong>planning and vision phase</strong>. The strategic direction is locked but no execution has begun.</p>
+    <p>Two architectural decisions are accepted but remain in research/design phase. The fleet is defined in <code>state.json</code> (eidos-v5, eidos-infra, eidos-philosophy, eidos-studies) but actual development across those repos hasn't started from this cockpit.</p>
+    <p>Per-pilot directories exist but no session work has been captured yet. No backlog tasks are tracked. Both pilots (Daniel and Vybhav) show zero active sessions. The organization is structured for multi-pilot coordination but hasn't been stress-tested.</p>
+  </div>
+
+  <div class="section">
+    <h2>Where We're Going</h2>
+    <ol>
+      <li><strong>Operationalize the North Star vision</strong> — Translate "universal screen control, no mandatory APIs" into concrete architecture for eidos-v5. Build the Computer Use / CUA integration as the primary interaction mode. This is the foundational capability: any website, any interface becomes reachable.</li>
+      <li><strong>Design and prototype Hancock</strong> — The auth/approval middleware is the second pillar. Research NIST AI Agent Standards, IETF OAuth extensions, and SPIFFE identity frameworks. Hancock becomes the gate that lets Eidos act as a remote employee with human-in-the-loop approval.</li>
+      <li><strong>Populate knowledge and decision logs</strong> — Capture trade-offs and summaries as design work happens. Build the shared memory so multi-pilot work doesn't duplicate. The multi-pilot model only works if knowledge is externalized.</li>
+    </ol>
+  </div>
+
+  <div class="section blockers">
+    <h2>Blockers</h2>
+    <p>None. Clear skies. The vision is locked, the cockpit is operational, the team structure is in place. No external dependencies blocking the first move — just work to do.</p>
+  </div>
+
+  <div class="timestamp">
+    Generated Feb 26, 2026 at 10:15 PM by /takeoff
+  </div>
+
+</body>
+</html>

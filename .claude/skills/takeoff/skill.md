@@ -171,9 +171,14 @@ Write the result to `cockpit.html` at the cockpit root.
 
 **Content in the HTML should match takeoff.md** — same level of detail, same structure. The HTML is just the styled presentation layer.
 
-After writing, output:
+After writing, open the cockpit in the browser:
+```bash
+open cockpit.html
 ```
-  COCKPIT   takeoff.md + cockpit.html written → open cockpit.html in browser
+
+Then output:
+```
+  COCKPIT   takeoff.md + cockpit.html written → opened in browser
 ```
 
 ### 6. Update State
