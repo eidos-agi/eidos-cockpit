@@ -1,50 +1,43 @@
-# eidos-cockpit — Takeoff #2
+# eidos-cockpit — Takeoff #3
 
-**Pilot** Daniel Shanklin &nbsp;|&nbsp; **Date** Feb 26, 2026 &nbsp;|&nbsp; **Time** 10:50 PM
+**Pilot** Daniel Shanklin &nbsp;|&nbsp; **Date** Feb 28, 2026 &nbsp;|&nbsp; **Time** 2:38 PM
 
-**Session** #2 &nbsp;|&nbsp; **Branch** `main` &nbsp;|&nbsp; **Working tree** clean &nbsp;|&nbsp; **Last landing** ~30 min ago
+**Session** #3 &nbsp;|&nbsp; **Branch** `main` &nbsp;|&nbsp; **Working tree** clean &nbsp;|&nbsp; **Last landing** ~33h ago
 
-> **Resume:** First cockpit session: ran inaugural /takeoff, upgraded /takeoff to auto-open dashboard, rewrote /land with cleanup phase, conversational debrief, landing artifacts, and auto-open.
+> **Drift:** 1 new commit pulled from remote — Hancock auth research brief, approval dashboard design, and AID protocol analysis (4 files added).
 
 ---
 
 ## Where We Were
 
-Session #1 (Feb 26) bootstrapped the entire cockpit from scratch. Three major accomplishments:
+Session #2 (Feb 27, early AM) completed a major backlog overhaul — consolidated duplicate tasks, archived completed work, and aligned the remaining backlog with the product vision that crystallized during the first two sessions. Daniel seeded the cockpit with five core initiatives after the inaugural session, establishing the planning infrastructure for the Eidos ecosystem.
 
-1. **Ran the inaugural /takeoff** — booted the cockpit for the first time. The pre-flight scan produced a full situational briefing covering the North Star vision, Hancock auth middleware, and the current planning-phase state. Generated `takeoff.md` and `cockpit.html` as persistent artifacts.
+Two architectural decisions were locked in during those sessions. The **North Star decision** established that universal computer control is Eidos's defining differentiator — APIs are optimizations on top of the universal screen-and-keyboard fallback. The **Hancock decision** identified agent authentication and approval protocols as the critical missing piece in enterprise AI deployment.
 
-2. **Upgraded /takeoff to auto-open the dashboard** — added `open cockpit.html` to the takeoff skill so the styled briefing automatically opens in the browser.
-
-3. **Rewrote /land from scratch** — the original was a bare checklist. The new version includes a cleanup phase (handles uncommitted work), conversational debrief interview (context-aware, not generic), `landing.md` + `landing.html` generation, and auto-open. Created `landing-template.html` with the same theme system as takeoff.
-
-Two foundational decisions are locked in `decisions/`:
-- **North Star** — Eidos as a full universal agent with screen-and-keyboard control as the primary interaction mode. APIs are optimizations, not requirements.
-- **Hancock** — Delegation and approval middleware for human-in-the-loop agent authorization.
-
-All work committed cleanly across 4 commits. Session ended with high confidence, no blockers.
+The cockpit template was synced to v1.2.1, and the /land and /takeoff skills were upgraded with cleanup phases and auto-open dashboards.
 
 ## Where We Are
 
-The cockpit is fully operational — state tracking, pilot activity, and the four-ship fleet are all configured. But the repos aren't wired to GitHub yet:
+The cockpit is in bootstrapping phase, but gaining substance fast. The structural foundation is solid — state.json tracks sessions, the fleet is defined (v5, Infra, Philosophy, Studies), decisions are recorded, and the backlog has been shaped and deduplicated.
 
-- **eidos-cockpit** has a remote origin but is 2 commits ahead (unpushed)
-- **eidos-v5, eidos-infra, eidos-philosophy, eidos-studies** are all local only — no remotes configured
+**New since last session:** Someone pushed Hancock research — a full auth research brief (`briefs/2026-02-25-hancock-auth-research.md`), an approval dashboard design doc (`briefs/2026-02-25-hancock-approval-dashboard-design.md`), and two AID protocol knowledge pieces (license analysis and summary). This means Hancock has moved from "decision made" to "research and design in progress." The knowledge base is no longer empty.
 
-The knowledge base is empty — `knowledge/` and `briefs/` only contain `.gitkeep` files. No backlog exists yet. Vybhav hasn't been active (last_active: null). The multi-pilot coordination model is designed but untested.
+The Backlog.md MCP integration referenced in CLAUDE.md hasn't been initialized yet. Tasks exist as raw markdown, functional but not leveraging MCP tools for structured tracking. The domain skills (/plan-sprint, /vision-check, /research-brief) don't exist yet either.
+
+Vybhav still has zero cockpit sessions, but the multi-pilot protocol is now more important — someone is pushing work to the repo outside of tracked cockpit sessions.
 
 ## Where We're Going
 
-1. **Push the cockpit and prepare the fleet for remote** — eidos-cockpit needs its commits pushed; the four sister repos need GitHub remotes created and configured. This unblocks multi-pilot protocol, CI/CD, and visibility. It's the foundation for everything else.
+1. **Initialize Backlog.md MCP properly** — The cockpit references it in CLAUDE.md, but the tooling hasn't been set up. This unblocks structured task tracking, automatic surfacing of active work during /takeoff, and clean session-to-session handoff between pilots. Highest-leverage infrastructure move.
 
-2. **Operationalize the North Star into eidos-v5 architecture** — Translate "universal screen control, no mandatory APIs" into concrete design. How does PEFM memory integrate with screen control? How does the orchestrator dispatch tasks to a universal control layer? This bridges vision to code.
+2. **Review and synthesize the new Hancock research** — Four new documents landed from remote. Before pushing forward on Hancock design, digest what's there: auth research findings, dashboard design, AID protocol implications. This prevents duplicate work and ensures the next design step builds on what exists.
 
-3. **Design and prototype Hancock** — Research NIST AI Agent Standards Initiative (launched Feb 2026), IETF OAuth extensions for agents, SPIFFE identity. Start with a research brief, then move to design docs. This unlocks the "remote employee" capability.
+3. **Write the three domain skills** (/plan-sprint, /vision-check, /research-brief) — Referenced in CLAUDE.md but don't exist as skill files. /plan-sprint is the most critical for multi-pilot coordination, especially now that work is landing from outside tracked sessions.
 
 ## Blockers
 
-None. Local repos need GitHub remotes, but that's a setup task, not a technical blocker. Vybhav coordination needed if collaborative architecture work is planned.
+None. Clear skies. The only coordination need is understanding who pushed the Hancock research and whether they're actively working on it or handing it off.
 
 ---
 
-*Generated 2026-02-27T04:50:00Z by /takeoff*
+*Generated 2026-02-28T14:38:07-0600 by /takeoff*

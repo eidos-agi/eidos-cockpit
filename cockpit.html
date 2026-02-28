@@ -144,11 +144,12 @@
       margin-bottom: 0.5rem;
     }
     .section li:last-child { margin-bottom: 0; }
-    .section code {
-      background: var(--bg);
-      padding: 0.15em 0.4em;
-      border-radius: 4px;
-      font-size: 0.875em;
+
+    /* Stale marker */
+    .stale {
+      color: var(--warning);
+      font-size: 0.8125rem;
+      font-weight: 600;
     }
 
     /* Footer */
@@ -166,7 +167,7 @@
 
   <div class="header">
     <div class="cockpit-name">eidos-cockpit</div>
-    <div class="takeoff-label">Takeoff #2</div>
+    <div class="takeoff-label">Takeoff #3</div>
   </div>
 
   <div class="status-bar">
@@ -176,15 +177,15 @@
     </div>
     <div class="status-item">
       <div class="status-label">Date</div>
-      <div class="status-value">Feb 26, 2026</div>
+      <div class="status-value">Feb 28, 2026</div>
     </div>
     <div class="status-item">
       <div class="status-label">Time</div>
-      <div class="status-value">10:50 PM</div>
+      <div class="status-value">2:38 PM</div>
     </div>
     <div class="status-item">
       <div class="status-label">Takeoff</div>
-      <div class="status-value">#2</div>
+      <div class="status-value">#3</div>
     </div>
   </div>
 
@@ -199,51 +200,50 @@
     </div>
     <div class="status-item">
       <div class="status-label">Session</div>
-      <div class="status-value">#2</div>
+      <div class="status-value">#3</div>
     </div>
     <div class="status-item">
       <div class="status-label">Last Landing</div>
-      <div class="status-value">~30 min ago</div>
+      <div class="status-value">~33h ago</div>
     </div>
   </div>
 
-  <div class="resume">
-    Resume: First cockpit session &mdash; ran inaugural /takeoff, upgraded /takeoff to auto-open dashboard, rewrote /land with cleanup phase, conversational debrief, landing artifacts, and auto-open.
+  <div class="drift">
+    <span class="drift-badge">Drift</span>
+    <span class="drift-text">1 new commit pulled from remote &mdash; Hancock auth research brief, approval dashboard design, and AID protocol analysis (4 files added).</span>
   </div>
 
   <div class="section">
     <h2>Where We Were</h2>
-    <p>Session #1 bootstrapped the entire cockpit from scratch. Ran the inaugural /takeoff, upgraded it to auto-open dashboards, then completely rewrote /land with a cleanup phase, conversational debrief interview, <code>landing.md</code> + <code>landing.html</code> generation, and auto-open. Created <code>landing-template.html</code> with the same theme system as takeoff.</p>
-    <p>Two foundational decisions are locked in <code>decisions/</code>: <strong>North Star</strong> (Eidos as a full universal agent with screen-and-keyboard control as primary interaction) and <strong>Hancock</strong> (delegation and approval middleware for human-in-the-loop authorization).</p>
-    <p>All work committed cleanly across 4 commits. Session ended with high confidence, no blockers.</p>
+    <p>Session #2 (Feb 27, early AM) completed a major backlog overhaul &mdash; consolidated duplicate tasks, archived completed work, and aligned the remaining backlog with the product vision that crystallized during the first two sessions. Daniel seeded the cockpit with five core initiatives after the inaugural session, establishing the planning infrastructure for the Eidos ecosystem.</p>
+    <p>Two architectural decisions were locked in. The <strong>North Star decision</strong> established that universal computer control is Eidos&rsquo;s defining differentiator &mdash; APIs are optimizations on top of the universal screen-and-keyboard fallback. The <strong>Hancock decision</strong> identified agent authentication and approval protocols as the critical missing piece in enterprise AI deployment.</p>
+    <p>The cockpit template was synced to v1.2.1, and the /land and /takeoff skills were upgraded with cleanup phases and auto-open dashboards.</p>
   </div>
 
   <div class="section">
     <h2>Where We Are</h2>
-    <p>Cockpit fully operational &mdash; state tracking, pilot activity, fleet defined. But the repos aren't wired to GitHub yet:</p>
-    <ul>
-      <li><strong>eidos-cockpit</strong> has a remote origin but is 2 commits ahead (unpushed)</li>
-      <li><strong>eidos-v5, eidos-infra, eidos-philosophy, eidos-studies</strong> are all local only &mdash; no remotes configured</li>
-    </ul>
-    <p>Knowledge base empty (<code>knowledge/</code> and <code>briefs/</code> are <code>.gitkeep</code> only). No backlog yet. Vybhav hasn't been active (last_active: null). Multi-pilot model designed but untested.</p>
+    <p>The cockpit is in bootstrapping phase, but gaining substance fast. The structural foundation is solid &mdash; state.json tracks sessions, the fleet is defined (v5, Infra, Philosophy, Studies), decisions are recorded, and the backlog has been shaped and deduplicated.</p>
+    <p><strong>New since last session:</strong> Someone pushed Hancock research &mdash; a full auth research brief, an approval dashboard design doc, and two AID protocol knowledge pieces (license analysis and summary). Hancock has moved from &ldquo;decision made&rdquo; to &ldquo;research and design in progress.&rdquo; The knowledge base is no longer empty.</p>
+    <p>The Backlog.md MCP integration referenced in CLAUDE.md hasn&rsquo;t been initialized yet. Tasks exist as raw markdown, functional but not leveraging MCP tools for structured tracking. The domain skills (/plan-sprint, /vision-check, /research-brief) don&rsquo;t exist yet either.</p>
+    <p>Vybhav still has zero cockpit sessions, but the multi-pilot protocol is now more important &mdash; someone is pushing work to the repo outside of tracked cockpit sessions.</p>
   </div>
 
   <div class="section">
     <h2>Where We're Going</h2>
     <ol>
-      <li><strong>Push the cockpit and prepare the fleet for remote</strong> &mdash; eidos-cockpit needs its commits pushed; the four sister repos need GitHub remotes created and configured. Unblocks multi-pilot protocol, CI/CD, and visibility.</li>
-      <li><strong>Operationalize the North Star into eidos-v5 architecture</strong> &mdash; Translate &ldquo;universal screen control, no mandatory APIs&rdquo; into concrete design. How does PEFM memory integrate with screen control? How does the orchestrator dispatch to a universal control layer?</li>
-      <li><strong>Design and prototype Hancock</strong> &mdash; Research NIST AI Agent Standards, IETF OAuth extensions, SPIFFE identity. Start with a research brief, then design docs. Unlocks the &ldquo;remote employee&rdquo; capability.</li>
+      <li><strong>Initialize Backlog.md MCP properly</strong> &mdash; The cockpit references it in CLAUDE.md, but the tooling hasn&rsquo;t been set up. This unblocks structured task tracking, automatic surfacing of active work during /takeoff, and clean session-to-session handoff between pilots. Highest-leverage infrastructure move.</li>
+      <li><strong>Review and synthesize the new Hancock research</strong> &mdash; Four new documents landed from remote. Before pushing forward on Hancock design, digest what&rsquo;s there: auth research findings, dashboard design, AID protocol implications. This prevents duplicate work and ensures the next design step builds on what exists.</li>
+      <li><strong>Write the three domain skills</strong> (/plan-sprint, /vision-check, /research-brief) &mdash; Referenced in CLAUDE.md but don&rsquo;t exist as skill files. /plan-sprint is the most critical for multi-pilot coordination, especially now that work is landing from outside tracked sessions.</li>
     </ol>
   </div>
 
   <div class="section blockers">
     <h2>Blockers</h2>
-    <p>None. Local repos need GitHub remotes, but that's a setup task, not a technical blocker. Vybhav coordination needed if collaborative architecture work is planned.</p>
+    <p>None. Clear skies. The only coordination need is understanding who pushed the Hancock research and whether they&rsquo;re actively working on it or handing it off.</p>
   </div>
 
   <div class="timestamp">
-    Generated Feb 26, 2026 at 10:50 PM by /takeoff
+    Generated Feb 28, 2026 at 2:38 PM by /takeoff
   </div>
 
 </body>

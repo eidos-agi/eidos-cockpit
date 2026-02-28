@@ -8,6 +8,57 @@ Shows the ASCII art header, status bar, and drift detection. Composes `/pre-flig
 
 ## Execution Steps
 
+### 0. Fleet Sync (runs before everything else)
+
+Sync the entire org fleet so takeoff has full situational awareness across all repos.
+
+**A. Discover repos** — run `gh repo list <org> --json name --limit 50` (where `<org>` comes from `state.json → cockpit.org`)
+- This is the authoritative source of what repos exist
+- **Fallback** (if `gh` is unavailable or offline): use the `fleet` map from `state.json` keys + scan `repos_dir` for local directories
+- Merge discovered repos with the `fleet` map — any repo found via `gh` that isn't in `fleet` gets added with `display_name` derived from the repo name
+
+**B. For each locally-cloned repo** (path derived from `repos_dir + "/" + repo_name`):
+1. `git fetch --all --quiet` — get latest remote state
+2. `git pull --ff-only --quiet` — pull if fast-forward possible (won't create merge commits)
+3. Capture: current branch, dirty file count, ahead/behind counts, last 5 commit authors (via `git log --format='%an' -5`), count of new-from-remote commits (via `git rev-list HEAD..@{u} --count` or similar)
+4. If pull fails (diverged history, etc.): **warn and continue** — never abort takeoff for a fleet sync issue
+
+**C. Build pilot activity map**:
+- Scan `git log --all --since='7 days ago' --format='%an'` across all repos
+- Match each author name to pilots using `git_names` arrays in `state.json → pilots`
+- Unknown authors (not matching any pilot's `git_names`) get flagged
+
+**D. Output fleet summary to terminal**:
+```
+  FLEET     <N> repos synced | <N> new commits pulled | <N> unpushed
+```
+
+Then a compact repo table:
+```
+  REPO           BRANCH     STATUS       NEW    UNPUSHED
+  eidos-v5       main       clean        3      0
+  eidos-cockpit  main       2 dirty      0      1
+  eidos-infra    main       clean        0      0
+  eidos-philosophy main     clean        0      2
+  eidos-studies  —          remote only  —      —
+```
+
+Then pilot activity:
+```
+  PILOTS    daniel: eidos-cockpit (3), eidos-v5 (1)
+            vybhav: eidos-v5 (5), eidos-philosophy (2)
+            unknown "bot-ci": eidos-infra (1)
+```
+
+**E. Repos not cloned locally** — report as "remote only" in the table. Do NOT auto-clone.
+
+**F. Fallback rules**:
+- `gh` unavailable → scan local dirs under `repos_dir` + fleet map keys
+- `git fetch` fails → warn, skip that repo, continue
+- `git pull` fails → warn (report as "diverged" in status), do not abort
+- Network offline → use whatever local state exists, note "offline — using cached state"
+- **Never abort takeoff for fleet sync issues** — degrade gracefully
+
 ### 1. Gather Core State (cheap, in main context)
 
 **A. state.json** — from the cockpit root
@@ -21,9 +72,9 @@ Shows the ASCII art header, status bar, and drift detection. Composes `/pre-flig
 - If found: read it for `lifecycle_state`, `context.summary`, `next_actions`, `blockers`, `confidence`
 - If not found: note "No previous bookmark for this cockpit"
 
-**C. Git state** — use the `gitStatus` block injected at session start
-- Current branch, dirty files, recent commits are **already in context**
-- **Do NOT re-run** `git status`, `git branch`, or `git log` — they're already there
+**C. Git state** — use fresh state from Step 0's fleet sync for the cockpit repo
+- Current branch, dirty files, ahead/behind are captured during fleet sync
+- For recent commits, use the data already gathered in Step 0
 
 **D. Pilot identity** — run `git config user.name` to get the name of who is taking off
 
@@ -66,6 +117,7 @@ Launch the `/pre-flight` skill as a **subagent** (Task tool, `subagent_type: "Ex
 Pass the subagent:
 - The current working directory
 - Bookmark context (summary, next_actions, blockers, lifecycle_state)
+- Fleet report data from Step 0 (repo table, pilot activity map, sync warnings, new-from-remote commits with authors/summaries)
 - Instructions to read the `/pre-flight` skill at `.claude/skills/pre-flight/skill.md` and follow it
 
 **Output the subagent's result directly below the status bar.**
@@ -105,6 +157,22 @@ Format:
 > **Resume:** <bookmark summary, if any>
 
 > **Drift:** <drift details, if any>
+
+---
+
+## Fleet Status
+
+| Repo | Branch | Status | New | Unpushed |
+|------|--------|--------|-----|----------|
+| eidos-v5 | main | clean | 3 | 0 |
+| eidos-cockpit | main | 2 dirty | 0 | 1 |
+| ... | ... | ... | ... | ... |
+
+## Pilot Activity (7d)
+
+- **daniel**: eidos-cockpit (3 commits), eidos-v5 (1 commit)
+- **vybhav**: eidos-v5 (5 commits), eidos-philosophy (2 commits)
+- **unknown "bot-ci"**: eidos-infra (1 commit)
 
 ---
 
@@ -161,6 +229,7 @@ Replace all `{{PLACEHOLDER}}` tokens with actual values:
 | `{{LAST_LANDING}}` | Human-readable time since last land |
 | `{{DRIFT_SECTION}}` | Full `<div class="drift">` block, or empty string if no drift |
 | `{{RESUME_SECTION}}` | Full `<div class="resume">` block, or empty string if no bookmark |
+| `{{FLEET_SECTION}}` | Full `<div class="fleet">` block with repo table + pilot activity cards (from Step 0 data). Empty string if fleet sync failed entirely |
 | `{{WHERE_WE_WERE}}` | Briefing content wrapped in `<p>` tags |
 | `{{WHERE_WE_ARE}}` | Briefing content wrapped in `<p>` tags |
 | `{{WHERE_WERE_GOING}}` | Briefing content as `<ol><li>` items |
@@ -194,7 +263,7 @@ Ready for orders.
 And wait for the user to tell you what to do.
 
 ## Rules
-- Reuse gitStatus from session context. Never re-fetch what's already there.
+- Step 0 (Fleet Sync) provides fresh git state for all repos including the cockpit. Use that data — don't re-run git commands that Step 0 already covered.
 - The subagent (pre-flight) does the heavy scanning. Main context stays lean.
 - Never ask questions during takeoff. Just show state.
 - If no bookmark exists and no state.json exists, this is a fresh cockpit — say "First flight. Cockpit initialized." and create state.json. Still run pre-flight.
@@ -202,3 +271,6 @@ And wait for the user to tell you what to do.
 - If `theme` is missing from state.json, use these defaults: primary `#3fb950`, danger `#f85149`, warning `#d29922`, bg `#0d1117`, surface `#161b22`, text `#e6edf3`, muted `#8b949e`.
 - `takeoff.md` and `cockpit.html` are overwritten on every takeoff. They always reflect the current session's starting position.
 - Both files should be committed to git (they're useful artifacts, not build output).
+- **Fleet sync fallback**: if `gh` is unavailable, scan `repos_dir` for local directories + fleet map keys. If `git fetch` or `git pull` fails for a repo, warn and continue — never abort takeoff.
+- **Repo paths are derived by convention**: `repos_dir + "/" + repo_name`. The `fleet` map does NOT contain paths — they are computed at runtime from `cockpit.repos_dir` and the map key.
+- **No auto-clone**: repos discovered via `gh` that are not cloned locally are reported as "remote only" in the fleet table.

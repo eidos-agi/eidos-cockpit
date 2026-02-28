@@ -5,7 +5,8 @@
     "template": "rhea-impact/ai-cockpit-template",
     "created": "2026-02-26",
     "org": "eidos-agi",
-    "template_version": "v1.2.1"
+    "template_version": "v1.2.1",
+    "repos_dir": "~/repos-eidos-agi"
   },
   "theme": {
     "primary": "#6c8aff",
@@ -20,46 +21,35 @@
     "decider": "#4ade80"
   },
   "watermarks": {
-    "last_takeoff": "2026-02-27T04:50:00Z",
+    "last_takeoff": "2026-02-28T20:38:07Z",
     "last_land": "2026-02-27T05:30:00Z",
     "last_status_check": null
   },
   "counters": {
-    "sessions": 2,
-    "takeoffs": 2,
+    "sessions": 3,
+    "takeoffs": 3,
     "landings": 2
   },
   "pilots": {
     "daniel": {
-      "last_active": "2026-02-27T04:50:00Z",
-      "sessions": 2
+      "last_active": "2026-02-28T20:38:07Z",
+      "sessions": 3,
+      "git_names": ["Daniel Shanklin", "daniel"],
+      "git_emails": ["daniel@eidos-agi.com"]
     },
     "vybhav": {
       "last_active": null,
-      "sessions": 0
+      "sessions": 0,
+      "git_names": ["VLR", "Vybhav", "vybhav"],
+      "git_emails": ["vybhav@eidos-agi.com"]
     }
   },
-  "fleet": [
-    {
-      "name": "Eidos v5 (Engine)",
-      "path": "~/repos-eidos-agi/eidos-v5",
-      "repo": "eidos-agi/eidos-v5"
-    },
-    {
-      "name": "Eidos Infra",
-      "path": "~/repos-eidos-agi/eidos-infra",
-      "repo": "eidos-agi/eidos-infra"
-    },
-    {
-      "name": "Eidos Philosophy",
-      "path": "~/repos-eidos-agi/eidos-philosophy",
-      "repo": "eidos-agi/eidos-philosophy"
-    },
-    {
-      "name": "Eidos Studies",
-      "path": "~/repos-eidos-agi/eidos-studies",
-      "repo": "eidos-agi/eidos-studies"
-    }
-  ],
+  "fleet": {
+    "eidos-v5": { "display_name": "Eidos v5 (Engine)" },
+    "eidos-infra": { "display_name": "Eidos Infra" },
+    "eidos-philosophy": { "display_name": "Eidos Philosophy" },
+    "eidos-studies": { "display_name": "Eidos Studies" },
+    "eidos-cockpit": { "display_name": "Eidos Cockpit" }
+  },
   "custom": {}
 }
