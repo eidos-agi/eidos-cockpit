@@ -1,0 +1,11 @@
+{
+  "name": "browser-control",
+  "version": "1.0.0",
+  "description": "Agent browser automation for Eidos cockpit diagnostics",
+  "scripts": {},
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "agent-browser": "^0.15.1"
+  }
+}
