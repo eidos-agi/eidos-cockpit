@@ -1,95 +1,46 @@
-# Hancock — Research Review & Architecture Decisions
+# Hancock — Thoughts on Your Research
 
 **Date** 2026-02-28
-**Reviewer** Daniel
-**Status** Awaiting Vybhav's input
+**From** Daniel
 **References** `briefs/2026-02-25-hancock-auth-research.md`, `briefs/2026-02-25-hancock-approval-dashboard-design.md`, `knowledge/aid-protocol-summary.md`, `knowledge/aid-protocol-license-analysis.md`
 
 ---
 
-## Review Summary
+## Short Version
 
-Vybhav's Feb 25 research session was strong. The AID Protocol analysis, capability namespace, and dashboard wireframes are thorough and ready to build on. Three architecture decisions need to be locked before we prototype.
+Read all four docs. I think this is great and should work. The AID Protocol being purpose-built for Eidos is the key insight — it means Hancock isn't an integration project, it's a completion project. The dashboard design is detailed enough to build from. The capability namespace feels right. I'm bought in.
 
-### What's Strong
+## What Got Me Excited
 
-- **AID Protocol = purpose-built for Eidos** — no integration tax, no license risk, full ownership. Major shortcut.
-- **SAP flow (SUR -> SUA -> SUT)** maps naturally to the approval dashboard + 2FA relay from the Eidos vision. Not forced.
-- **Dashboard wireframes** are detailed enough to nearly build from — real component specs, risk assessment logic, API contracts.
-- **Capability namespace** (`screen:control`, `terminal:exec:safe`, etc.) is well-scoped — not too granular, not too coarse.
+- **AID Protocol already exists and is tested** — 8 packages, 53 tests, zero deps. We're not starting from scratch. The fact that it was built for us means there's no impedance mismatch to fight.
+- **SAP is exactly the right pattern** — SUR/SUA/SUT maps perfectly to the approval dashboard. A human gets a request, approves or denies it, and Eidos gets a scoped temporary token. That's the whole product.
+- **The dashboard design is real** — 4 tabs, component specs, risk assessment logic, notification formats, API contracts. Someone could start building this next week.
+- **Autonomy levels** — the 0-3 slider is a clean UX for something that could be very complicated. "How much do you trust Eidos?" as a single dial.
 
-### What's Missing
+## Suggestion: Build a Fake Version First
 
-- **Integration surface with Eidos Core** — the research treats Hancock as standalone, but the orchestrator in eidos-v5 needs concrete touchpoints. Specifically: how does a running pod request a DT mid-mission? What event/callback does SAP use to pause the orchestrator while waiting for human approval? Does the orchestrator poll, or does the SUT get pushed back? These are the APIs that connect your dashboard design to the engine.
-- **AID Protocol repo** exists only on Vybhav's machine (`/Users/vlr/Workspace/...`). Needs to be in the `eidos-agi` GitHub org before anyone else can build on it.
-- **The 3 open questions need answers before prototyping** — otherwise we'll build a prototype and immediately refactor once these are resolved. Locking them now protects everyone's time. See decisions below.
+You flagged three open questions — key storage, DID method, cross-platform DTs. All real, all important. But I think we'd learn more from building a working fake than from debating the answers in docs.
 
----
+**Proposal: a fully working online prototype with mock data.** No real crypto, no real service integrations, no real agent. Just the dashboard running against fake SURs, fake DTs, fake activity. A dry run that lets us watch the design collide with the real world at zero stakes.
 
-## Decision 1: Key Storage
+What this would test:
+- **Does the SAP flow feel right?** When a fake SUR pops up, is the approval UX fast enough? Does the risk assessment make sense? Do the three buttons (deny/conditional/approve) cover the real cases?
+- **Do the autonomy levels work?** If we crank it to 3, does the right stuff get auto-approved? At 0, does it feel like too much friction?
+- **Is the activity feed useful?** When you scroll through a day of fake Eidos activity, can you actually tell what happened and whether it was safe?
+- **Does the delegation management make sense?** Can you look at a DT card and understand what Eidos is allowed to do?
+- **What breaks?** What scenarios don't fit the 4-tab model? What approval types are we not handling?
 
-Your research flagged this as open: "Where does Eidos store its AID private key? (Knox? HSM?)"
+Once we've used the fake version for a few days, the open questions will answer themselves:
+- Key storage becomes obvious once we see what signing patterns actually emerge
+- DID method becomes clear once we see how principals interact with the approval UX
+- Cross-platform translation architecture falls out of which connectors we actually need first
 
-This is the highest-stakes choice. The signing key touches every action Eidos takes, and your "not extractable" requirement rules out some obvious options. Things worth thinking through:
+Then we plug in a real agent and see what changes.
 
-- What's the threat model — compromised agent runtime? Stolen disk? Insider access?
-- Should the key ever be in Eidos's process memory, or does signing happen out-of-process?
-- Is there a key rotation story? One key forever is brittle. Multiple keys (root vs. operational) adds complexity but limits blast radius.
-- How does Knox fit here — is it the right layer for this, or does this need something closer to hardware?
+## One Ask
 
-**What do you think the right answer is?**
-
----
-
-## Decision 2: Principal DID Method
-
-Your brief surfaced three candidates: `did:email`, `did:web`, `did:key`. Each has real tradeoffs.
-
-Questions that should drive the choice:
-
-- What happens when a principal loses their device? Rotation and recovery story matters a lot here.
-- Do we need resolution (looking up a DID to find keys/endpoints), or is self-contained enough?
-- What's the human approval UX — browser/passkeys, mobile push, hardware key, CLI? The DID method should match the signing surface.
-- Will principals always be individuals, or do we need to support orgs/teams from day one?
-
-**Which way are you leaning, and why?**
+Push the AID Protocol repo to the `eidos-agi` GitHub org when you get a chance — I want to read the code, and we'll need it there to build against.
 
 ---
 
-## Decision 3: Cross-Platform DT Acceptance
-
-Your DT design (targeted, wildcard, chained) is strong as an internal authorization primitive. The open question is what happens at the boundary — when Eidos needs to actually talk to Stripe, Gmail, or Slack.
-
-Things to figure out:
-
-- Does Hancock translate DTs into service-native auth (OAuth, API keys), or do we push for native DT adoption? What's the realistic near-term path?
-- If Hancock translates, where do the service credentials live? How do we scope them so a DT for `slack:post` can't be used to escalate into `slack:read`?
-- How do we limit blast radius if a connector is compromised — per-service isolation, separate credential sets, something else?
-- What's Knox's role here — vault for all service credentials?
-
-**What's your architecture for this?**
-
----
-
-## Failure Modes to Address
-
-These came from an external architecture review and aren't covered in the current research:
-
-1. **Compromised runtime** — need process isolation between agent runtime and connectors/secrets. If Eidos is compromised, attacker shouldn't reach OAuth tokens directly.
-2. **TOCTOU (time-of-check/time-of-use)** — SUT must cryptographically bind the exact payload hash to what was approved, not just "approve $200 to Stripe."
-3. **UI spoofing in step-up** — approval dashboard must show a canonical, signer-verifiable summary derived from the signed bytes. Attacker shouldn't be able to alter what the human sees vs. what gets signed.
-4. **Nonce race conditions** — durable atomic check-and-set required, not in-memory. Cross-region clock skew handling needed.
-5. **Audit log tampering** — append-only, signed, shipped off-host (WORM-like storage). Logs are security-critical evidence.
-6. **Prompt injection -> privilege escalation** — planted instructions in emails/Slack/screens causing Eidos to request legitimate permissions. Need strong content detectors + domain allowlists + "reason required" fields.
-
----
-
-## Next Steps
-
-- [ ] **Vybhav**: Respond to the 3 decisions — commit a response doc or annotate this one
-- [ ] **Vybhav**: Push AID Protocol repo to `eidos-agi` org so we can both work against it
-- [ ] **Both**: Once decisions are locked, write `decisions/2026-03-XX-hancock-architecture.md`
-
----
-
-*Reviewed by Daniel. Feb 28, 2026.*
+*Daniel, Feb 28, 2026.*
