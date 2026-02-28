@@ -17,23 +17,38 @@ Read all four docs. I think this is great and should work. The AID Protocol bein
 - **The dashboard design is real** — 4 tabs, component specs, risk assessment logic, notification formats, API contracts. Someone could start building this next week.
 - **Autonomy levels** — the 0-3 slider is a clean UX for something that could be very complicated. "How much do you trust Eidos?" as a single dial.
 
-## Suggestion: Build a Fake Version First
+## Proposal: Build the Hancock Frontend
 
-You flagged three open questions — key storage, DID method, cross-platform DTs. All real, all important. But I think we'd learn more from building a working fake than from debating the answers in docs.
+You flagged three open questions — key storage, DID method, cross-platform DTs. All real. But I think we should build the frontend first and let those answers emerge from using it.
 
-**Proposal: a fully working online prototype with mock data.** No real crypto, no real service integrations, no real agent. Just the dashboard running against fake SURs, fake DTs, fake activity. A dry run that lets us watch the design collide with the real world at zero stakes.
+**Next step: build the Hancock dashboard as a live app with mock data.** React + Next.js + Tailwind + shadcn/ui, exactly the stack you spec'd. Your wireframes are detailed enough to build from directly. Deploy it somewhere we can both use it.
 
-What this would test:
-- **Does the SAP flow feel right?** When a fake SUR pops up, is the approval UX fast enough? Does the risk assessment make sense? Do the three buttons (deny/conditional/approve) cover the real cases?
-- **Do the autonomy levels work?** If we crank it to 3, does the right stuff get auto-approved? At 0, does it feel like too much friction?
-- **Is the activity feed useful?** When you scroll through a day of fake Eidos activity, can you actually tell what happened and whether it was safe?
-- **Does the delegation management make sense?** Can you look at a DT card and understand what Eidos is allowed to do?
-- **What breaks?** What scenarios don't fit the 4-tab model? What approval types are we not handling?
+### What to build
 
-Once we've used the fake version for a few days, the open questions will answer themselves:
-- Key storage becomes obvious once we see what signing patterns actually emerge
-- DID method becomes clear once we see how principals interact with the approval UX
-- Cross-platform translation architecture falls out of which connectors we actually need first
+**All four tabs from your design:**
+- **Pending** — mock SURs streaming in on a timer (financial, terminal, screen control). Approve/deny/modify buttons that actually update state. Risk assessment badges.
+- **Activity** — pre-populated with a realistic day of fake Eidos activity. Filterable by category, searchable, with the status indicators you designed (approved/denied/modified/auto-approved).
+- **Delegations** — 3-4 mock DTs with permissions grids, spend tracking bars, and revoke buttons that work.
+- **Settings** — autonomy slider that actually changes which mock SURs get auto-approved. Financial limit inputs. Approval trigger checkboxes. The emergency controls.
+
+**Mock data that feels real:**
+- Fake SURs that match your examples — "$127.50 to Stripe," "kubectl delete namespace staging," "new domain: internal.admin.example.com"
+- Realistic timing — some urgent, some stale, some auto-approved
+- Spend tracking that accumulates as you approve financial actions
+- Notifications (browser push if possible, or at least toasts)
+
+**SSE or WebSocket for real-time** — mock SURs should appear live, not on page refresh. The whole point is to feel what it's like when Eidos asks for permission mid-mission.
+
+### What this teaches us
+
+Once we're clicking through real approval flows with realistic mock data, a few things become obvious that aren't obvious on paper:
+- Whether the approval UX is fast enough or too much friction
+- Whether autonomy levels 0-3 are the right granularity
+- Whether the activity feed is actually useful or just noise
+- What approval types we're missing
+- How the dashboard feels on mobile (your responsive spec gets tested for real)
+
+The three open questions (key storage, DID method, cross-platform DTs) don't block this at all — mock data sidesteps them. And by the time we've used the frontend for a week, we'll have much stronger opinions on each one.
 
 Then we plug in a real agent and see what changes.
 
