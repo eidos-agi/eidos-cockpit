@@ -22,13 +22,13 @@
   },
   "watermarks": {
     "last_takeoff": "2026-02-28T20:38:07Z",
-    "last_land": "2026-02-27T05:30:00Z",
+    "last_land": "2026-02-28T22:15:00Z",
     "last_status_check": null
   },
   "counters": {
     "sessions": 3,
     "takeoffs": 3,
-    "landings": 2
+    "landings": 3
   },
   "pilots": {
     "daniel": {
