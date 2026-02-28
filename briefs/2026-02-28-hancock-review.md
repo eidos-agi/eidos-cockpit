@@ -20,9 +20,9 @@ Vybhav's Feb 25 research session was strong. The AID Protocol analysis, capabili
 
 ### What's Missing
 
-- **Integration surface with Eidos Core** — how does the orchestrator in eidos-v5 request a DT? How does SAP interrupt a running mission? The research treats Hancock as standalone, but the integration surface is where real complexity lives.
+- **Integration surface with Eidos Core** — the research treats Hancock as standalone, but the orchestrator in eidos-v5 needs concrete touchpoints. Specifically: how does a running pod request a DT mid-mission? What event/callback does SAP use to pause the orchestrator while waiting for human approval? Does the orchestrator poll, or does the SUT get pushed back? These are the APIs that connect your dashboard design to the engine.
 - **AID Protocol repo** exists only on Vybhav's machine (`/Users/vlr/Workspace/...`). Needs to be in the `eidos-agi` GitHub org before anyone else can build on it.
-- **The 3 open questions are blockers**, not footnotes. See decisions below.
+- **The 3 open questions need answers before prototyping** — otherwise we'll build a prototype and immediately refactor once these are resolved. Locking them now protects everyone's time. See decisions below.
 
 ---
 
@@ -30,7 +30,7 @@ Vybhav's Feb 25 research session was strong. The AID Protocol analysis, capabili
 
 **Question:** Where does Eidos store its AID private key?
 
-**Recommendation:** HSM/KMS-backed signing service. Never load the key into Eidos process memory.
+**Recommendation:** Building on your AID Protocol crypto analysis (Ed25519, dual signatures), this pushes toward an HSM/KMS-backed signing service. Never load the key into Eidos process memory.
 
 Architecture:
 - Tiny signing service exposes only `sign(payload_hash)` over mTLS or Unix socket
@@ -51,7 +51,7 @@ Key hierarchy:
 
 **Question:** Which DID method for human owners (the people who delegate to Eidos)?
 
-**Recommendation:** `did:key` as cryptographic principal + email as attribute.
+**Recommendation:** Your brief surfaced `did:email`, `did:web`, and `did:key` as candidates. After review, `did:key` as the cryptographic principal + email as attribute looks like the strongest option.
 
 Rationale:
 - `did:key` — self-contained, no resolution dependency, fits AID Protocol's "zero external deps" philosophy
@@ -69,7 +69,7 @@ Rationale:
 
 **Question:** Will external services (Stripe, Gmail, Slack) accept AID Delegation Tokens natively?
 
-**Recommendation:** No, and we shouldn't bet on it. Hancock translates DTs to service-native auth.
+**Recommendation:** Your DT design (targeted, wildcard, chained) is the right internal primitive. But external services won't adopt it natively near-term. Hancock translates DTs to service-native auth.
 
 Architecture:
 ```
@@ -122,4 +122,4 @@ These came from an external architecture review and aren't covered in the curren
 
 ---
 
-*Review conducted by Daniel with architecture consultation from GPT-5.2. Feb 28, 2026.*
+*Review conducted by Daniel with architecture consultation from GPT-5.2. Final decisions are ours jointly — these recommendations are starting positions, not verdicts. Feb 28, 2026.*
