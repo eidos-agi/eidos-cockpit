@@ -28,64 +28,46 @@ Vybhav's Feb 25 research session was strong. The AID Protocol analysis, capabili
 
 ## Decision 1: Key Storage
 
-**Question:** Where does Eidos store its AID private key?
+Your research flagged this as open: "Where does Eidos store its AID private key? (Knox? HSM?)"
 
-**Recommendation:** Building on your AID Protocol crypto analysis (Ed25519, dual signatures), this pushes toward an HSM/KMS-backed signing service. Never load the key into Eidos process memory.
+This is the highest-stakes choice. The signing key touches every action Eidos takes, and your "not extractable" requirement rules out some obvious options. Things worth thinking through:
 
-Architecture:
-- Tiny signing service exposes only `sign(payload_hash)` over mTLS or Unix socket
-- Signer enforces its own policy — rate limits, allowed payload types, spend caps
-- Append-only audit log for every signing operation
-- Even if Eidos runtime is compromised, attacker can't extract the key — only abuse the signer under existing controls
+- What's the threat model — compromised agent runtime? Stolen disk? Insider access?
+- Should the key ever be in Eidos's process memory, or does signing happen out-of-process?
+- Is there a key rotation story? One key forever is brittle. Multiple keys (root vs. operational) adds complexity but limits blast radius.
+- How does Knox fit here — is it the right layer for this, or does this need something closer to hardware?
 
-Key hierarchy:
-- **Root key** — offline/cold, signs rotations only
-- **Operational signing key** — hot, used for frequent action signing, fast rotation
-- **Optional high-risk key** — separate key for dangerous capabilities (terminal:exec, screen:control), requires SAP regardless of autonomy level
-
-**Vybhav:** Does this fit with how you envisioned Knox's role? Is there a simpler interim approach for prototyping while we build toward HSM?
+**What do you think the right answer is?**
 
 ---
 
 ## Decision 2: Principal DID Method
 
-**Question:** Which DID method for human owners (the people who delegate to Eidos)?
+Your brief surfaced three candidates: `did:email`, `did:web`, `did:key`. Each has real tradeoffs.
 
-**Recommendation:** Your brief surfaced `did:email`, `did:web`, and `did:key` as candidates. After review, `did:key` as the cryptographic principal + email as attribute looks like the strongest option.
+Questions that should drive the choice:
 
-Rationale:
-- `did:key` — self-contained, no resolution dependency, fits AID Protocol's "zero external deps" philosophy
-- `did:email` is not a widely standardized DID method with clean resolution/rotation/recovery — skip it as a primitive
-- Bind a **verified email address** to the `did:key` for notifications and SAP flows
-- Use **WebAuthn/passkeys** for the actual human UX of signing approvals
-- Support `did:web` additionally for organizations and enterprises
-- Rotation story: old key signs new key, or multi-party recovery with time delay
+- What happens when a principal loses their device? Rotation and recovery story matters a lot here.
+- Do we need resolution (looking up a DID to find keys/endpoints), or is self-contained enough?
+- What's the human approval UX — browser/passkeys, mobile push, hardware key, CLI? The DID method should match the signing surface.
+- Will principals always be individuals, or do we need to support orgs/teams from day one?
 
-**Vybhav:** You mentioned `did:email` as an option in the research brief. Any reason to prefer it over `did:key` + email attribute? Also — what's your expected approval UX: WebAuthn, mobile push, hardware keys, or CLI signing?
+**Which way are you leaning, and why?**
 
 ---
 
 ## Decision 3: Cross-Platform DT Acceptance
 
-**Question:** Will external services (Stripe, Gmail, Slack) accept AID Delegation Tokens natively?
+Your DT design (targeted, wildcard, chained) is strong as an internal authorization primitive. The open question is what happens at the boundary — when Eidos needs to actually talk to Stripe, Gmail, or Slack.
 
-**Recommendation:** Your DT design (targeted, wildcard, chained) is the right internal primitive. But external services won't adopt it natively near-term. Hancock translates DTs to service-native auth.
+Things to figure out:
 
-Architecture:
-```
-DT verified (11-step engine)
-  -> Connector selected (Stripe/Gmail/Slack adapter)
-    -> Connector uses service-native credentials (OAuth/API key) from Knox
-      -> Action performed + signed audit record emitted
-```
+- Does Hancock translate DTs into service-native auth (OAuth, API keys), or do we push for native DT adoption? What's the realistic near-term path?
+- If Hancock translates, where do the service credentials live? How do we scope them so a DT for `slack:post` can't be used to escalate into `slack:read`?
+- How do we limit blast radius if a connector is compromised — per-service isolation, separate credential sets, something else?
+- What's Knox's role here — vault for all service credentials?
 
-Key constraints:
-- Per-connector sub-credentials to limit blast radius (separate OAuth apps per service)
-- DT scope must bind to connector scope (`slack:post` DT can't be used to read DMs)
-- Design DTs to be adoptable by third parties later, but ship with translation now
-- Knox holds OAuth tokens / API keys for every service Eidos uses
-
-**Vybhav:** This means Knox becomes the vault for all service credentials. Are you good with that responsibility model? Also — is Eidos running locally, cloud-hosted, or hybrid? This affects the connector architecture significantly.
+**What's your architecture for this?**
 
 ---
 
@@ -102,24 +84,12 @@ These came from an external architecture review and aren't covered in the curren
 
 ---
 
-## Suggested Build Order
+## Next Steps
 
-1. Non-exportable signing boundary (HSM/KMS + policy + audit)
-2. Connector architecture (Stripe/Gmail/Slack with scoped sub-credentials)
-3. SAP hardening (payload binding, anti-approval-fatigue, canonical rendering)
-4. Durable registries (nonce + revocation + spend with strong consistency)
-5. Operational safety rails (egress allowlists, anomaly detection, kill switch)
-
----
-
-## Action Items
-
-- [ ] **Vybhav**: Respond to the 3 decisions (commit a response doc or annotate this one)
-- [ ] **Vybhav**: Push AID Protocol repo to `eidos-agi` org on GitHub
-- [ ] **Vybhav**: Answer deployment model — local, cloud-hosted, or hybrid?
-- [ ] **Vybhav**: Answer approval UX — WebAuthn, mobile push, hardware keys, or CLI?
+- [ ] **Vybhav**: Respond to the 3 decisions — commit a response doc or annotate this one
+- [ ] **Vybhav**: Push AID Protocol repo to `eidos-agi` org so we can both work against it
 - [ ] **Both**: Once decisions are locked, write `decisions/2026-03-XX-hancock-architecture.md`
 
 ---
 
-*Review conducted by Daniel with architecture consultation from GPT-5.2. Final decisions are ours jointly — these recommendations are starting positions, not verdicts. Feb 28, 2026.*
+*Reviewed by Daniel. Feb 28, 2026.*
