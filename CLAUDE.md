@@ -40,9 +40,14 @@ If a session crashes without `/land`, the next `/takeoff` will detect drift and 
 
 | Repo | What It Is |
 |------|-----------|
+| `cockpit-eidos` | This repo — planning, strategy, mission control |
+| `cockpit-daniel` | Daniel's personal cockpit — founder ops, email, account management |
+| `cockpit-vybhav` | Vybhav's personal cockpit — founder ops, research |
 | `eidos-v5` | The engine — pods, PEFM memory, orchestrator, research pipeline |
-| `eidos-cockpit` | This repo — planning, strategy, mission control |
+| `helios` | Browser automation for AI agents — Chrome extension + MCP server, identity-aware |
 | `eidos-infra` | Infrastructure and deployment |
+| `eidos-coo` | COO agent — manages a fleet of specialist AI employee agents |
+| `eidos-rolodex` | Relationships, contacts, and identity management |
 | `eidos-philosophy` | Core philosophy and identity documents |
 | `eidos-studies` | Research studies and experiments |
 
@@ -62,7 +67,7 @@ If a session crashes without `/land`, the next `/takeoff` will detect drift and 
 |--------|------|------|
 | **Eidos Core** (brain) | PEFM memory, pods, orchestrator, memory compression | `eidos-v5` |
 | **Hancock** (auth) | Delegation certificates, approval dashboard, 2FA relay | TBD |
-| **Agent Identity** (body) | Universal computer control, email, phone, Slack | TBD |
+| **Helios** (body) | Browser automation, identity-aware web control, personas, site learning | `helios` |
 
 ## Domain Skills
 
@@ -75,7 +80,7 @@ If a session crashes without `/land`, the next `/takeoff` will detect drift and 
 ## Project Structure
 
 ```
-eidos-cockpit/
+cockpit-eidos/
 ├── CLAUDE.md              ← you are here
 ├── state.json             ← cockpit state & watermarks
 ├── pilots/                ← per-pilot state (merge-friendly)
