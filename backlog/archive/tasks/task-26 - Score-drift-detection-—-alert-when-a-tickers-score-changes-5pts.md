@@ -4,10 +4,10 @@ title: Score drift detection — alert when a ticker's score changes >5pts
 status: To Do
 assignee: []
 created_date: '2026-02-23 17:23'
-updated_date: '2026-02-23 17:23'
+updated_date: '2026-03-01 07:23'
 labels: []
 milestone: m-3
-dependencies: [TASK-25]
+dependencies: []
 priority: medium
 ---
 

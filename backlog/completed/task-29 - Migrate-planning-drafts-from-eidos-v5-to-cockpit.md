@@ -1,14 +1,15 @@
 ---
 id: TASK-29
 title: Migrate planning drafts from eidos-v5 to cockpit
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-02-26 06:00'
+updated_date: '2026-03-01 07:23'
 labels:
   - cockpit
   - housekeeping
-dependencies: []
 milestone: m-4
+dependencies: []
 priority: high
 ---
 
@@ -27,3 +28,9 @@ Move both drafts to the cockpit repo, either as backlog items or as briefs in `b
 - [ ] #3 Originals removed from eidos-v5/backlog/drafts/
 - [ ] #4 No information lost in the migration
 <!-- AC:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Planning drafts migrated to cockpit. Decisions and briefs directories populated.
+<!-- SECTION:FINAL_SUMMARY:END -->

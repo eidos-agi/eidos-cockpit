@@ -4,10 +4,10 @@ title: Dashboard scorecard — live SSE streaming of scores + perspectives
 status: To Do
 assignee: []
 created_date: '2026-02-23 17:22'
-updated_date: '2026-02-23 17:23'
+updated_date: '2026-03-01 07:23'
 labels: []
 milestone: m-3
-dependencies: [TASK-23]
+dependencies: []
 priority: medium
 ---
 

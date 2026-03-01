@@ -1,20 +1,23 @@
 ---
 id: TASK-36
-title: Agent identity stack — email, phone, Slack, persistent presence
+title: 'Agent identity stack — email, phone, Slack, persistent presence'
 status: To Do
 assignee: []
 created_date: '2026-02-26'
+updated_date: '2026-03-01 07:24'
 labels:
   - north-star
   - agent-identity
   - infrastructure
-milestone: m-5
-dependencies: [TASK-34]
+milestone: m-8
+dependencies:
+  - TASK-34
 priority: medium
 ---
 
 ## Description
 
+<!-- SECTION:DESCRIPTION:BEGIN -->
 A full agent has its own identity. Build the communication stack so Eidos can be reached and can reach out like a remote employee.
 
 ### Communication Channels
@@ -36,11 +39,13 @@ A full agent has its own identity. Build the communication stack so Eidos can be
 - AgentMail (YC S25), Afterdraft
 - Retell AI, Bland AI, Vapi (voice)
 - Archived DRAFT-2 (communication stack section)
+<!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
-- [ ] #1 Eidos has a dedicated email address it can send/receive from
-- [ ] #2 Eidos can make and receive phone calls
-- [ ] #3 Eidos has Slack presence (can be messaged, responds)
-- [ ] #4 Proactive behavior: surfaces blockers and status updates without being asked
-- [ ] #5 All outbound actions gated through Hancock approval flow
+<!-- AC:BEGIN -->
+- [ ] #1 #1 Eidos has a dedicated email address it can send/receive from
+- [ ] #2 #2 Eidos can make and receive phone calls
+- [ ] #3 #3 Eidos has Slack presence (can be messaged, responds)
+- [ ] #4 #4 Proactive behavior: surfaces blockers and status updates without being asked
+- [ ] #5 #5 All outbound actions gated through Hancock approval flow
+<!-- AC:END -->

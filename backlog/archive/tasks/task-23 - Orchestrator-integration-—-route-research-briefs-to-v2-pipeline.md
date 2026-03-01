@@ -4,10 +4,11 @@ title: Orchestrator integration — route research briefs to v2 pipeline
 status: To Do
 assignee: []
 created_date: '2026-02-23 17:22'
-updated_date: '2026-02-23 17:22'
+updated_date: '2026-03-01 07:23'
 labels: []
 milestone: m-3
-dependencies: [TASK-21, TASK-22]
+dependencies:
+  - TASK-21
 priority: high
 ---
 

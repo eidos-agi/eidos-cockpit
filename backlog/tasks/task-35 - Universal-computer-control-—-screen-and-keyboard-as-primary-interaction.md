@@ -4,17 +4,19 @@ title: Universal computer control — screen-and-keyboard as primary interaction
 status: To Do
 assignee: []
 created_date: '2026-02-26'
+updated_date: '2026-03-01 07:24'
 labels:
   - north-star
   - architecture
   - computer-use
-milestone: m-5
+milestone: m-7
 dependencies: []
 priority: high
 ---
 
 ## Description
 
+<!-- SECTION:DESCRIPTION:BEGIN -->
 The North Star: Eidos works with ANY website, ANY terminal, ANY interface through screen-and-keyboard control. APIs are optimizations, not requirements.
 
 ### What to Build
@@ -33,11 +35,13 @@ Give Eidos a task involving a website it has never seen before. If it can naviga
 - Skyvern (AI browser automation)
 - Helios / Claude in Chrome (browser extension control)
 - Archived DRAFT-2 (Eidos-as-Remote-Employee)
+<!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
-
-- [ ] #1 Eidos can navigate an unfamiliar website and complete a simple task via screen control
-- [ ] #2 Orchestrator routes tasks to screen control when no API integration exists
-- [ ] #3 API integrations used as fast-path when available, screen control as fallback
-- [ ] #4 Terminal access works for CLI-based workflows
-- [ ] #5 End-to-end demo: complete a multi-step task on a never-before-seen website
+<!-- AC:BEGIN -->
+- [ ] #1 #1 Eidos can navigate an unfamiliar website and complete a simple task via screen control
+- [ ] #2 #2 Orchestrator routes tasks to screen control when no API integration exists
+- [ ] #3 #3 API integrations used as fast-path when available, screen control as fallback
+- [ ] #4 #4 Terminal access works for CLI-based workflows
+- [ ] #5 #5 End-to-end demo: complete a multi-step task on a never-before-seen website
+<!-- AC:END -->

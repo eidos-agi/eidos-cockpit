@@ -108,16 +108,16 @@ This is not vaporware. Inventory of working assets:
 - **Eidos Core** (`eidos-v5`) — PEFM memory system, pod architecture, research pipeline, orchestrator. Working prototype.
 - **AID Protocol** — 8 packages (`core`, `crypto`, `registry`, `verify`, `sap`, `sdk`, `middleware`, `wellknown`). 53 tests passing. Zero external dependencies. Ed25519 signatures throughout. Production-ready framework.
 - **Hancock Dashboard Design** — Complete 4-tab specification (Pending Approvals, Activity Feed, Delegations, Governance Settings). Risk assessment logic defined. Notification system designed. API client interface specified. Ready to build.
-- **Eidos Cockpit** (`eidos-cockpit`) — Operational multi-pilot mission control with fleet-aware sync, session tracking, decision logging, and knowledge base.
+- **Eidos Cockpit** (`cockpit-eidos`) — Operational multi-pilot mission control with fleet-aware sync, session tracking, decision logging, and knowledge base.
 - **Eidos Infrastructure** (`eidos-infra`) — Deployment and infrastructure configuration.
 - **Eidos Philosophy** (`eidos-philosophy`) — 30+ design documents defining the agent model, identity architecture, and product vision.
 - **Eidos Studies** (`eidos-studies`) — Research experiments and validation.
 
 ### Infrastructure
-- **GitHub org**: `eidos-agi` — 5 active repositories
+- **GitHub org**: `eidos-agi` — 10 repositories (cockpit-eidos, eidos-v5, helios, eidos-infra, eidos-philosophy, eidos-studies, eidos-coo, eidos-rolodex, cockpit-daniel, cockpit-vybhav)
 - **Dedicated server**: HostRound EPYC (AMD EPYC 4464P, 64GB RAM) — currently suspended, ~$67/mo to resume
-- **Domain planned**: `eidosagi.com` — available, $8.88/yr on Porkbun
-- **Email planned**: Migadu — $29/mo, unlimited mailboxes (one domain, infinite workers)
+- **Domain**: `eidosagi.com` — registered on Cloudflare ($10.46/yr, expires Feb 28, 2027)
+- **Email**: Migadu — free trial active (upgrade to Standard $29/mo before March 15), `daniel@eidosagi.com` operational, DNS configured (MX, SPF, DKIM, DMARC)
 
 ### Research & Strategy
 - **"Clicking Is Not Configuring"** — Operational brief on configuration-as-code, born from real production incident. Investor-relevant framing of our infrastructure philosophy.
@@ -148,7 +148,7 @@ This is not vaporware. Inventory of working assets:
 | **Entity type** | Delaware C-Corp or LLC | C-Corp if fundraising; LLC if bootstrapping. Can start LLC, convert later. |
 | **IP assignment** | Assign existing code to new entity | AID Protocol, Eidos Core, cockpit — all need formal assignment |
 | **Vesting schedule** | 4-year/1-year cliff (standard) or immediate | Should be discussed |
-| **Domain** | `eidosagi.com` | Available now at $8.88/yr; register immediately |
+| **Domain** | `eidosagi.com` | Registered on Cloudflare, $10.46/yr, expires Feb 2027 |
 
 ### Remnants to Clean Up
 
@@ -209,41 +209,52 @@ With Migadu's flat-rate email ($29/mo for unlimited mailboxes), the marginal cos
 
 ---
 
-## 8. Roadmap
+## 8. Roadmap — "The Agent Builds Its Own Company"
 
-### Phase 1: Hancock Frontend Prototype
-**Timeline: Now**
-- Build the Hancock approval dashboard with mock data
-- React + Next.js + Tailwind + shadcn/ui (tech stack already specified)
-- All 4 tabs functional: Pending Approvals, Activity Feed, Delegations, Settings
-- Mock SURs streaming in via SSE on a timer
-- Deploy on Railway
-- **Goal**: Tangible, demonstrable product. Something to show.
+> *Updated 2026-03-01. Supersedes the previous Hancock-first sequence. See `decisions/2026-03-01-build-sequence.md` for the full decision record.*
 
-### Phase 2: Agent Identity Stack
-**Timeline: After Phase 1**
-- Register `eidosagi.com`, set up Migadu email
-- Create OS-level user accounts for workers
-- Wire AID Protocol into real identity provisioning
-- First real delegation tokens issued and verified
-- **Goal**: A worker with a real email address and real scoped access.
+The key insight: a functioning Eidos + Helios fast-starts everything else. The agent doesn't just build the product — it sets up the company, earns money, and proves the thesis by doing it. The founding story IS the product demo.
 
-### Phase 3: First Digital Worker
-**Timeline: After Phase 2**
-- Single customer, single worker, full end-to-end loop
-- Worker onboards to customer's systems via screen control
-- Hancock dashboard provides live supervision
-- Customer can approve, deny, modify actions in real time
-- Full audit trail from first action to last
-- **Goal**: One paying customer. Revenue. Validation.
+### Phase 0: Bootstrap the Bootstrap
+**Timeline: Now (1-2 weeks, human-driven)**
+- Deploy Helios hub to Railway (cloud — currently local-only, dies when laptop sleeps)
+- Helios reliability fixes (button clicking, CSP, site learning)
+- Email verification (SPF/DKIM/DMARC), Migadu upgrade before March 15
+- Founder + agent mailboxes (vybhav@, eidos@eidosagi.com)
+- Minimal persistent agent loop (task queue, autonomous operation)
+- Shared secrets system, server unsuspension, evidence capture setup
+- **Goal**: Agent can reliably navigate websites, fill forms, and send email — even when Daniel's laptop is closed.
 
-### Phase 4: Platform
-**Timeline: After Phase 3 validated**
+### Phase 1: Eidos Sets Up Its Own Company
+**Timeline: After Phase 0 (1-2 weeks, agent-driven)**
+- File Delaware C-Corp via Stripe Atlas (browser automation)
+- Get EIN from IRS, open business bank account (Mercury/Brex)
+- Set up accounting, registered agent, franchise tax
+- Founder restricted stock purchase agreements (agent prepares, Daniel signs)
+- **Goal**: Eidos AGI is a legal entity with a bank account, EIN, and clean cap table. The demo IS the product.
+
+### Phase 2: Eidos Earns Money
+**Timeline: After Phase 1 (2-4 weeks, agent-driven)**
+- Create Fiverr seller account, list deliverable services
+- Complete real tasks, deliver work, collect payment
+- Document everything — this is the case study
+- **Goal**: Agent earns its first dollar. Proof of value, not revenue.
+
+### Phase 3: Hancock + Supervision Layer
+**Timeline: After Phase 0, informed by Phase 1-2 (4-6 weeks)**
+- Hancock frontend prototype (approval dashboard, all 4 tabs)
+- AID Protocol integration (delegation certificates)
+- Supervision gradient informed by real operational data from Phases 1-2
+- 2FA relay for sensitive operations
+- **Goal**: Proper authorization, audit trail, and human oversight for high-stakes actions.
+
+### Phase 4: Platform + Customers
+**Timeline: After Phase 3 (8-12 weeks)**
 - Multi-tenant provisioning (self-service worker creation)
 - Customer-owned domains (workers on customer's email domain)
-- Autonomy level progression (data-driven trust escalation)
-- Worker templates (pre-configured for common roles)
-- **Goal**: Scale beyond the first customer without manual setup.
+- First paying customer — a business paying for a digital worker
+- Pricing, billing, support
+- **Goal**: Recurring revenue from customers who aren't the founders.
 
 ---
 
@@ -254,8 +265,8 @@ With Migadu's flat-rate email ($29/mo for unlimited mailboxes), the marginal cos
 | Item | Cost | Status |
 |------|------|--------|
 | HostRound EPYC server (AMD EPYC 4464P, 64GB RAM) | ~$67/mo | Suspended — needs unsuspension |
-| Migadu email (unlimited mailboxes) | $29/mo | Not yet activated |
-| `eidosagi.com` domain | ~$0.75/mo ($8.88/yr) | Not yet registered |
+| Migadu email (unlimited mailboxes) | $29/mo | Free trial active (upgrade before March 15) |
+| `eidosagi.com` domain | ~$0.87/mo ($10.46/yr) | Registered on Cloudflare |
 | LLM API costs (development) | ~$5–50/mo | Variable |
 | GitHub org | $0 | Free tier sufficient |
 | **Total (operational)** | **~$102–147/mo** | |
@@ -284,9 +295,8 @@ The infrastructure economics are favorable because:
 | Need | Cost | Why |
 |------|------|-----|
 | Unsuspend HostRound server | ~$67 | Development and deployment infrastructure |
-| Register `eidosagi.com` | ~$9 | Brand, email, identity |
-| Activate Migadu | ~$29 | Worker email identities |
-| **Total to resume operations** | **~$105** | |
+| Upgrade Migadu to Standard | ~$29 | Worker email identities (free trial expires March 15) |
+| **Total to resume operations** | **~$96** | Domain already registered ($10.46 paid) |
 
 ### Near-Term Needs (3–6 months)
 

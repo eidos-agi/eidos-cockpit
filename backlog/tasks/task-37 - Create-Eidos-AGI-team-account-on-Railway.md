@@ -4,9 +4,11 @@ title: Create Eidos AGI team account on Railway
 status: To Do
 assignee: []
 created_date: '2026-02-28 22:47'
+updated_date: '2026-03-01 07:24'
 labels:
   - infrastructure
   - hancock
+milestone: m-7
 dependencies: []
 priority: medium
 ---

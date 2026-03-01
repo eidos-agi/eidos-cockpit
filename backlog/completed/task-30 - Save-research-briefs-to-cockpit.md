@@ -1,14 +1,15 @@
 ---
 id: TASK-30
 title: Save research briefs to cockpit
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-02-26 06:00'
+updated_date: '2026-03-01 07:23'
 labels:
   - cockpit
   - research
-dependencies: []
 milestone: m-4
+dependencies: []
 priority: high
 ---
 
@@ -32,3 +33,9 @@ These findings are captured in eidos-v5 backlog task notes but should be distill
 - [ ] #3 Brief: eidos-as-employee-research.md in briefs/
 - [ ] #4 Each brief is self-contained and readable without context from this session
 <!-- AC:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Research briefs saved to cockpit briefs/ directory.
+<!-- SECTION:FINAL_SUMMARY:END -->

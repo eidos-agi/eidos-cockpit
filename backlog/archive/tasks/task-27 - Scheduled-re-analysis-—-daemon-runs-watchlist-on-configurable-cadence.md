@@ -4,10 +4,10 @@ title: Scheduled re-analysis — daemon runs watchlist on configurable cadence
 status: To Do
 assignee: []
 created_date: '2026-02-23 17:23'
-updated_date: '2026-02-23 17:23'
+updated_date: '2026-03-01 07:23'
 labels: []
 milestone: m-3
-dependencies: [TASK-25, TASK-26]
+dependencies: []
 priority: low
 ---
 

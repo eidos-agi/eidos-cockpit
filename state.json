@@ -1,12 +1,12 @@
 {
   "cockpit": {
-    "name": "eidos-cockpit",
+    "name": "cockpit-eidos",
     "version": "1.0.0",
     "template": "rhea-impact/ai-cockpit-template",
     "created": "2026-02-26",
     "org": "eidos-agi",
     "template_version": "v1.2.1",
-    "repos_dir": "/Users/vlr/Workspace/boone_voyage/repos-eidos-agi"
+    "repos_dir": "~/repos-eidos-agi"
   },
   "theme": {
     "primary": "#6c8aff",
@@ -21,37 +21,40 @@
     "decider": "#4ade80"
   },
   "watermarks": {
-    "last_takeoff": "2026-03-04T19:15:00Z",
-    "last_land": "2026-03-04T19:45:00Z",
+    "last_takeoff": "2026-02-28T22:20:00Z",
+    "last_land": "2026-02-28T22:15:00Z",
     "last_status_check": null
   },
   "counters": {
-    "sessions": 6,
-    "takeoffs": 6,
-    "landings": 4
+    "sessions": 4,
+    "takeoffs": 4,
+    "landings": 3
   },
   "pilots": {
     "daniel": {
-      "last_active": "2026-02-28T20:38:07Z",
-      "sessions": 3,
+      "last_active": "2026-02-28T22:20:00Z",
+      "sessions": 4,
       "git_names": ["Daniel Shanklin", "daniel"],
-      "git_emails": ["daniel@eidos-agi.com"]
+      "git_emails": ["daniel@eidosagi.com"]
     },
     "vybhav": {
-      "last_active": "2026-03-04T19:15:00Z",
-      "sessions": 1,
+      "last_active": null,
+      "sessions": 0,
       "git_names": ["VLR", "Vybhav", "vybhav"],
-      "git_emails": ["vybhav@eidos-agi.com"]
+      "git_emails": ["vybhav@eidosagi.com"]
     }
   },
   "fleet": {
+    "cockpit-eidos": { "display_name": "Eidos Cockpit (this repo)" },
     "eidos-v5": { "display_name": "Eidos v5 (Engine)" },
+    "helios": { "display_name": "Helios (Browser Automation)" },
     "eidos-infra": { "display_name": "Eidos Infra" },
     "eidos-philosophy": { "display_name": "Eidos Philosophy" },
     "eidos-studies": { "display_name": "Eidos Studies" },
-    "eidos-cockpit": { "display_name": "Eidos Cockpit" },
-    "helios": { "display_name": "Helios (Body)" },
-    "hancock": { "display_name": "Hancock (Auth)" }
+    "eidos-coo": { "display_name": "Eidos COO" },
+    "eidos-rolodex": { "display_name": "Eidos Rolodex" },
+    "cockpit-daniel": { "display_name": "Daniel's Cockpit" },
+    "cockpit-vybhav": { "display_name": "Vybhav's Cockpit" }
   },
   "custom": {}
 }
