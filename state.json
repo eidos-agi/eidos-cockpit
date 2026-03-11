@@ -21,13 +21,13 @@
     "decider": "#4ade80"
   },
   "watermarks": {
-    "last_takeoff": "2026-02-28T22:20:00Z",
+    "last_takeoff": "2026-03-11T07:08:26Z",
     "last_land": "2026-02-28T22:15:00Z",
     "last_status_check": null
   },
   "counters": {
-    "sessions": 4,
-    "takeoffs": 4,
+    "sessions": 6,
+    "takeoffs": 6,
     "landings": 3
   },
   "pilots": {
@@ -54,7 +54,8 @@
     "eidos-coo": { "display_name": "Eidos COO" },
     "eidos-rolodex": { "display_name": "Eidos Rolodex" },
     "cockpit-daniel": { "display_name": "Daniel's Cockpit" },
-    "cockpit-vybhav": { "display_name": "Vybhav's Cockpit" }
+    "cockpit-vybhav": { "display_name": "Vybhav's Cockpit" },
+    "eidos-capital": { "display_name": "Eidos Capital (Hedge Fund)" }
   },
   "custom": {}
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>eidos-cockpit — Cockpit</title>
+  <title>cockpit-eidos — Cockpit</title>
   <style>
     :root {
       --primary: #6c8aff;
@@ -24,8 +24,6 @@
       margin: 0 auto;
       line-height: 1.5;
     }
-
-    /* Header */
     .header {
       border-bottom: 2px solid var(--primary);
       padding-bottom: 1.5rem;
@@ -44,8 +42,6 @@
       color: var(--muted);
       margin-top: 0.25rem;
     }
-
-    /* Status bar */
     .status-bar {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -72,8 +68,6 @@
     .status-value.clean { color: var(--primary); }
     .status-value.dirty { color: var(--warning); }
     .status-value.never { color: var(--muted); font-style: italic; }
-
-    /* Drift alert */
     .drift {
       background: rgba(210, 153, 34, 0.08);
       border: 1px solid var(--warning);
@@ -96,8 +90,6 @@
       white-space: nowrap;
     }
     .drift-text { font-size: 0.9375rem; }
-
-    /* Resume line */
     .resume {
       background: var(--surface);
       border-radius: 8px;
@@ -108,8 +100,6 @@
       color: var(--muted);
       font-size: 0.9375rem;
     }
-
-    /* Briefing sections */
     .section {
       background: var(--surface);
       border-radius: 8px;
@@ -144,8 +134,6 @@
       margin-bottom: 0.5rem;
     }
     .section li:last-child { margin-bottom: 0; }
-
-    /* Fleet dashboard */
     .fleet {
       background: var(--surface);
       border-radius: 8px;
@@ -188,15 +176,9 @@
     }
     .fleet-status { font-weight: 600; }
     .fleet-status.synced { color: var(--primary); }
-    .fleet-status.ahead { color: var(--warning); }
     .fleet-status.dirty { color: var(--warning); }
-    .fleet-status.diverged { color: var(--danger); }
-    .fleet-status.new-commits { color: var(--primary); }
     .fleet-status.remote-only { color: var(--muted); font-style: italic; }
-
-    .pilot-activity {
-      margin-top: 1rem;
-    }
+    .pilot-activity { margin-top: 1rem; }
     .pilot-activity h3 {
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -209,22 +191,7 @@
       font-size: 0.875rem;
       padding: 0.25rem 0;
     }
-    .pilot-activity-item strong {
-      color: var(--primary);
-    }
-    .pilot-unknown {
-      color: var(--warning);
-      font-style: italic;
-    }
-
-    /* Stale marker */
-    .stale {
-      color: var(--warning);
-      font-size: 0.8125rem;
-      font-weight: 600;
-    }
-
-    /* Footer */
+    .pilot-activity-item strong { color: var(--primary); }
     .timestamp {
       text-align: center;
       color: var(--muted);
@@ -238,8 +205,8 @@
 <body>
 
   <div class="header">
-    <div class="cockpit-name">eidos-cockpit</div>
-    <div class="takeoff-label">Takeoff #4</div>
+    <div class="cockpit-name">cockpit-eidos</div>
+    <div class="takeoff-label">Takeoff #6</div>
   </div>
 
   <div class="status-bar">
@@ -249,15 +216,15 @@
     </div>
     <div class="status-item">
       <div class="status-label">Date</div>
-      <div class="status-value">Feb 28, 2026</div>
+      <div class="status-value">Mar 11, 2026</div>
     </div>
     <div class="status-item">
       <div class="status-label">Time</div>
-      <div class="status-value">10:20 PM</div>
+      <div class="status-value">2:08 AM</div>
     </div>
     <div class="status-item">
       <div class="status-label">Takeoff</div>
-      <div class="status-value">#4</div>
+      <div class="status-value">#6</div>
     </div>
   </div>
 
@@ -268,110 +235,85 @@
     </div>
     <div class="status-item">
       <div class="status-label">Working Tree</div>
-      <div class="status-value clean">Clean</div>
+      <div class="status-value dirty">6 files modified</div>
     </div>
     <div class="status-item">
       <div class="status-label">Session</div>
-      <div class="status-value">#4</div>
+      <div class="status-value">#6</div>
     </div>
     <div class="status-item">
       <div class="status-label">Last Landing</div>
-      <div class="status-value">moments ago</div>
+      <div class="status-value">11 days ago</div>
     </div>
   </div>
 
+  <div class="drift">
+    <span class="drift-badge">Drift</span>
+    <span class="drift-text">Last session auto-closed without /land. 1 new commit since bookmark. Operational protocols skipped (takeoff, research-first, governance, devlog, bookmark).</span>
+  </div>
 
-
-  <div class="resume">Implemented fleet-aware /takeoff — added Step 0 (Fleet Sync) that discovers repos via gh, fetches/pulls all fleet repos, builds pilot activity maps from git author aliases, and surfaces fleet health in terminal, takeoff.md, and cockpit.html. <em>[done, high confidence]</em></div>
+  <div class="resume">Resume: Last session implemented pipeline telemetry (17 event types), ran CRL experiments at N=3,5,10,15, committed all 30+ repos. Auto-closed without bookmark.</div>
 
   <div class="fleet">
     <h2>Fleet Status</h2>
-    <div class="fleet-summary">5 repos synced | 0 new commits pulled | 6 unpushed</div>
+    <div class="fleet-summary">34 repos synced | 0 new commits pulled | 0 unpushed</div>
     <table class="fleet-table">
       <thead>
-        <tr>
-          <th>Repo</th>
-          <th>Branch</th>
-          <th>Status</th>
-          <th>New</th>
-          <th>Unpushed</th>
-        </tr>
+        <tr><th>Repo</th><th>Branch</th><th>Status</th><th>Unpushed</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td>eidos-cockpit</td>
-          <td>main</td>
-          <td><span class="fleet-status synced">clean</span></td>
-          <td>0</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>eidos-v5</td>
-          <td>main</td>
-          <td><span class="fleet-status synced">clean</span></td>
-          <td>0</td>
-          <td><span class="fleet-status ahead">1</span></td>
-        </tr>
-        <tr>
-          <td>eidos-infra</td>
-          <td>main</td>
-          <td><span class="fleet-status synced">clean</span></td>
-          <td>0</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>eidos-philosophy</td>
-          <td>main</td>
-          <td><span class="fleet-status synced">clean</span></td>
-          <td>0</td>
-          <td><span class="fleet-status ahead">5</span></td>
-        </tr>
-        <tr>
-          <td>eidos-studies</td>
-          <td>main</td>
-          <td><span class="fleet-status synced">clean</span></td>
-          <td>0</td>
-          <td>0</td>
-        </tr>
+        <tr><td>cockpit-eidos</td><td>main</td><td class="fleet-status dirty">6 dirty</td><td>0</td></tr>
+        <tr><td>cockpit-daniel</td><td>main</td><td class="fleet-status dirty">1 dirty</td><td>0</td></tr>
+        <tr><td>eidosomni</td><td>master</td><td class="fleet-status dirty">1 dirty</td><td>0</td></tr>
+        <tr><td>eidos-v5</td><td>main</td><td class="fleet-status synced">clean</td><td>0</td></tr>
+        <tr><td>helios</td><td>main</td><td class="fleet-status synced">clean</td><td>0</td></tr>
+        <tr><td>eidos-coo</td><td>main</td><td class="fleet-status synced">clean</td><td>0</td></tr>
+        <tr><td>eidos-infra</td><td>main</td><td class="fleet-status synced">clean</td><td>0</td></tr>
+        <tr><td>eidos-rolodex</td><td>main</td><td class="fleet-status synced">clean</td><td>0</td></tr>
+        <tr><td>hancock</td><td>—</td><td class="fleet-status remote-only">remote only</td><td>—</td></tr>
+        <tr><td>cockpit-vybhav</td><td>—</td><td class="fleet-status remote-only">remote only</td><td>—</td></tr>
       </tbody>
     </table>
     <div class="pilot-activity">
       <h3>Pilot Activity (7d)</h3>
-      <div class="pilot-activity-item"><strong>daniel</strong>: eidos-v5 (36), eidos-cockpit (11), eidos-philosophy (7), eidos-infra (1), eidos-studies (1)</div>
-      <div class="pilot-activity-item"><strong>vybhav</strong>: eidos-cockpit (1)</div>
+      <div class="pilot-activity-item"><strong>daniel</strong>: 25 repos — books (34), eidos-mail (21), test-forge (16), book-forge (7), image-forge (7), eidos-consent (6), underwriting-forge (6), eidos-v5 (4), +17 more</div>
+      <div class="pilot-activity-item"><strong>vybhav</strong>: cockpit-eidos (2)</div>
     </div>
   </div>
 
   <div class="section">
     <h2>Where We Were</h2>
-    <p>Last session launched fleet-aware /takeoff — a major infrastructure win that now discovers all five repos via GitHub CLI, automatically syncs them, and surfaces pilot activity maps from git author aliases. The implementation touched four files across the cockpit: state.json gained pilot git aliases, a repos_dir config field, and a fleet map keyed by repo name. The takeoff skill got a new Step 0 (Fleet Sync) with dynamic discovery via <code>gh repo list</code>, and the pre-flight skill gained two new sub-steps for fleet status and pilot activity.</p>
-    <p>Before that, the backlog had been overhauled, deduped, and aligned with the crystallized product vision from the first two sessions. Four Hancock documents (auth research, approval dashboard design, AID protocol analysis) also arrived — meaning Hancock moved from "decision locked" to "design in progress."</p>
-    <p>The cockpit went from bare scaffold to working operational center in three sessions.</p>
+    <p>Last session implemented <strong>pipeline telemetry</strong> — 17 event types wired into the eidos-v5 orchestrator, recording classifier predictions, DAG structure, verification verdicts, timing, and learning feedback to SQLite. Added <code>predict_with_confidence()</code> to ML classifiers. Created 5 mocked tests. Tracked as TASK-51.</p>
+    <p>Ran <strong>CRL experiments</strong> at N=3, 5, 10, 15. Key result: Eidos beats Claude solo at N≥5 — both faster and more accurate. At N=10: A3 scored 73.4% in 471s vs A0's 56.3% in 796s. N=15 exposed decomposition gap (classifier confidence 0.58). Tracked as TASK-52.</p>
+    <p>Committed and pushed all 30+ repos across the eidos-agi org. 3 new repos created. Session auto-closed without /land — all operational protocols were skipped.</p>
   </div>
 
   <div class="section">
     <h2>Where We Are</h2>
-    <p>Fleet is clean and synced: all five repos pulled successfully, no divergence, no failed syncs. Two repos have unpushed work — <strong>eidos-v5</strong> (1 commit: backlog migration) and <strong>eidos-philosophy</strong> (5 commits: THE-IDENTITY, THE-WORKER, THE-IDENTITY-PLAN, author name fix).</p>
-    <p>Daniel is the sole active pilot with 56 commits across all repos in the last 7 days. Vybhav's alias ("VLR") has appeared once in eidos-cockpit history — confirming the git_names alias mapping works.</p>
-    <p>The cockpit has solid operational bones: state.json, decisions, 14 active backlog tasks, multi-pilot protocol defined. However, Backlog.md MCP integration hasn't been initialized — tasks are raw markdown. The three domain skills (/plan-sprint, /vision-check, /research-brief) don't exist yet. Hancock research documents suggest active design work, but without a tracked session, status is unclear.</p>
+    <p>Phase 0 (Bootstrap) is the critical path. Fleet health is excellent — 34 repos synced, no diverged branches. CRL data validates the core thesis: multi-step complexity is where the moat lives.</p>
+    <p>Operational infrastructure remains the gap: no persistent agent, Helios local-only, no daemon loop. Phase 0 revised from 1-2 days to 1-2 weeks after gap analysis. The architecture is mapped but execution infrastructure is missing.</p>
   </div>
 
   <div class="section">
     <h2>Where We're Going</h2>
     <ol>
-      <li><strong>Push unpushed repos</strong> (eidos-v5 and eidos-philosophy) — keeps fleet clean and ensures remote is canonical for multi-pilot coordination.</li>
-      <li><strong>Initialize Backlog.md MCP</strong> — highest-leverage infrastructure move. Enables structured task tracking, auto-surfacing in /takeoff, and pilot handoff. Write /plan-sprint for multi-pilot workstream management.</li>
-      <li><strong>Digest the Hancock research documents</strong> — four docs landed from remote. Synthesize before pushing design further to prevent duplicate work and clarify workstream status.</li>
+      <li><strong>Wire Helios Postgres</strong> — 38 filesystem ops → Postgres, Dockerize, deploy to Railway. Infrastructure prerequisite for autonomous operation.</li>
+      <li><strong>Fix N=15 decomposition</strong> — Complexity classifier needs retraining. Capability prerequisite for Phase 1 legal/financial flows.</li>
+      <li><strong>Build persistent agent loop</strong> — Task queue → Claude Code → audit log. Operational model prerequisite.</li>
+      <li><strong>Commit and push cockpit state</strong> — 6 dirty files including TASK-51, TASK-52.</li>
     </ol>
   </div>
 
   <div class="section blockers">
     <h2>Blockers</h2>
-    <p>None. Fleet is healthy, no failed syncs, no divergence. The only coordination gap: Hancock work arrived without a tracked session note — unclear if actively in flight or waiting for review. Next action (digest the docs) clarifies that.</p>
+    <p><strong>Helios Postgres:</strong> Railway instance needs provisioning (Daniel gate).</p>
+    <p><strong>Migadu upgrade:</strong> Trial expires March 15 (4 days). Payment required.</p>
+    <p><strong>Vybhav IP assignment:</strong> AID Protocol not in eidos-agi org. Structural risk accumulating.</p>
+    <p>No hard technical blockers. This is execution, not exploration.</p>
   </div>
 
   <div class="timestamp">
-    Generated Feb 28, 2026 at 10:20 PM by /takeoff
+    Generated Mar 11, 2026 at 2:08 AM by /takeoff
   </div>
 
 </body>
